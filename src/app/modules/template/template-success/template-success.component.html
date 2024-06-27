@@ -1,0 +1,26 @@
+<div class="template-success-container">
+  <div class="header-container">
+    <div class="header-image-container">
+      <img class="shiksha-logo" src="../../../../assets/Images/shikshalokam-logo.png" alt="">
+    </div>
+    <div class="log-out" *ngIf="isUserLogin && !customAuth" (click)="onLogout()">
+      <button mat-raised-button>Logout</button>
+    </div>
+  </div>
+  <div class="success-container">
+    <mat-card class="template-card">
+      <mat-card-content class="template-section">
+        <div class="export-container">
+          <div>
+            <p class="congrats-message">Congrats!!! Survey solution created successfully</p>
+            <h2>Solution Id : {{ this.solutionId }}</h2>
+          </div>
+          <div>
+            <button mat-raised-button (click)="copyText()">Click here to copy Downloadable file path</button>
+            <p *ngIf="isCopied" class="copied-message">Copied!</p>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
