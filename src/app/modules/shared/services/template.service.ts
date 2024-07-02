@@ -1,6 +1,7 @@
 import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { DataService } from '../data/data.service';
+import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
@@ -84,5 +85,12 @@ export class TemplateService {
     }
     return this.dataService.post(reqParam);
 
+    }
+    getSurveySolutions(): Observable<any> {
+      const reqParam = {
+        url: 'survey/getSolutions'
+      };
+      return this.dataService.post(reqParam);
+    }
   }
-}
+

@@ -26,15 +26,19 @@ export class TemplateSuccessComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    // Subscribe to route parameters
+    this.route.params.subscribe(params => {
+      this.solutionId = params['solutionId'];
+    });
+  
     // Subscribe to query parameters
     this.route.queryParams.subscribe(params => {
-      this.solutionId = params['solutionid'];
       this.solutionUrl = params['downloadbleUrl'];
       console.log(this.solutionUrl, "Click me");
-
+  
       // Check if the user is logged in
       this.isUserLogin = this.authService.isUserLoggedIn();
-
+  
       // If the template file is not set, navigate to the template selection page
       if (!this.templateService.templateFile) {
         this.router.navigate(['/template/template-selection']);
@@ -43,7 +47,7 @@ export class TemplateSuccessComponent implements OnInit {
         this.onFileChange(this.templateService.templateFile);
       }
     });
-  }
+  }  
 
   copyText() {
     /* Copy text into clipboard */

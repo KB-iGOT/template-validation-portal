@@ -89,6 +89,11 @@ export class TemplateSelectionComponent implements OnInit {
           }
         );
       });
+    } else {
+      console.error('No file found');
+      this.loader = false;
+      this.toaster.error('No file found ', "Please select a file");
+      this.router.navigate(['/template/template-selection']);
     }
   }
 
@@ -108,12 +113,11 @@ export class TemplateSelectionComponent implements OnInit {
                 this.templateService.surveyCreation(this.templateService.userSelectedFile).subscribe(
                   (surveyEvent: any) => {
                     this.solutiondetails = surveyEvent.result[0]
-                    this.router.navigate(['/template/template-success',this.solutiondetails.solutionid],
-                      {
-                        queryParams: {
-                            solutionid: this.solutiondetails.solutionid,
-                            downloadbleUrl: this.solutiondetails.downloadbleUrl
-                        }
+                    console.log(this.solutiondetails.solutionId, "this.solutiondetails.solutionId 111")
+                    this.router.navigate(['/template/template-success', this.solutiondetails.solutionId], {
+                  queryParams: {
+                    downloadbleUrl: this.solutiondetails.downloadbleUrl
+                  }
                     });// Navigate to success page
                   },
                   
@@ -140,8 +144,40 @@ export class TemplateSelectionComponent implements OnInit {
           this.toaster.error('Error uploading file'); // Display error message to user
         }
       );
+    } else {
+      console.error('No file found');
+      this.loader = false;
+      this.toaster.error('No file found ', "Please select a file");
+      this.router.navigate(['/template/template-selection']);
     }
   }
+
+  downloadSurveySolutions() {
+    this.loader = true;
+    this.templateService.getSurveySolutions().subscribe(
+      (response: any) => {
+        console.log(response)
+        if (response && response.csvPath) {
+          const csvPath = response.csvPath;
+          const link = document.createElement('a');
+          link.href = csvPath;
+          link.download = 'survey_solutions.csv';
+          link.click();
+        } else {
+          console.error('Invalid response or missing csvPath.');
+          // Handle error or show notification
+        }
+        this.loader = false;
+      },
+      (error: any) => {
+        console.error('Error fetching survey solutions:', error);
+        this.loader = false;
+        // Handle error or show notification
+      }
+    );
+  }
+
+
   
   
 

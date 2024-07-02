@@ -93,7 +93,9 @@ export class ValidationResultComponent implements OnInit {
   onFileChange(evt: any) {
     if (!this.errors) {
       this.router.navigate(['/template/template-selection']);
+      return; // Exit early if no errors are present
     }
+
     const target: DataTransfer = <DataTransfer>(evt);
     const reader: FileReader = new FileReader();
 
@@ -208,7 +210,7 @@ export class ValidationResultComponent implements OnInit {
   }
 
   getTotalErrors(): number {
-    return this.totalErrors;
+    return this.sheetarr.reduce((total: number, sheetName: string) => total + this.errorsCountPerSheet[sheetName], 0);
   }
 
   getTotalErrorsForSheet(): number {
@@ -228,11 +230,11 @@ export class ValidationResultComponent implements OnInit {
     return this.getTotalErrors() > 0;
   }
 
-  noErrorsInAllSheets(): boolean {
-    return this.sheetarr.every((sheetName: string) => {
-      return this.errorsCountPerSheet[sheetName] === 0;
-    });
-  }
+ noErrorsInAllSheets(): boolean {
+  return this.sheetarr.every((sheetName: string) => {
+    return this.errorsCountPerSheet[sheetName] === 0;
+  });
+}
 
   goBack(): void {
     this._location.back();
