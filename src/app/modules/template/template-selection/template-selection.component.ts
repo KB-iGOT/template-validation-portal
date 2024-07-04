@@ -123,7 +123,10 @@ export class TemplateSelectionComponent implements OnInit {
                   
                   (surveyError: any) => {
                     console.error('Error creating survey:', surveyError);
-                    this.toaster.error('Error creating survey(Validate the Survey template before creating)'); // Display error message to user
+                    // this.toaster.error('Error creating survey(Validate the Survey template before creating)'); // Display error message to user
+                    // this.router.navigate(['/template/validation-result']);
+                    this.validateTemplate()
+
                   }
                 );
               // } else {
@@ -163,6 +166,7 @@ export class TemplateSelectionComponent implements OnInit {
           link.href = csvPath;
           link.download = 'survey_solutions.csv';
           link.click();
+          alert("Downloaded successfully")
         } else {
           console.error('Invalid response or missing csvPath.');
           // Handle error or show notification

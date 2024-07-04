@@ -12,12 +12,8 @@
       <mat-card-content class="template-section">
         <div class="export-container">
           <div>
-            <p class="congrats-message">Congrats!!! Survey solution created successfully</p>
+            <p class="congrats-message">Solution created successfully</p>
             <h2>Solution Id : {{ this.solutionId }}</h2>
-          </div>
-          <div>
-            <button mat-raised-button (click)="copyText()">Click here to copy Downloadable file path</button>
-            <p *ngIf="isCopied" class="copied-message">Copied!</p>
           </div>
         </div>
       </mat-card-content>

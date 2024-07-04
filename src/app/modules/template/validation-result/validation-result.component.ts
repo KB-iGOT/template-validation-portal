@@ -34,6 +34,7 @@ export class ValidationResultComponent implements OnInit {
   headers: any;
   isUserLogin: boolean = false;
   columnIdentifier: any;
+  validateresult: boolean = false
 
   tooltipTemplate!: TemplateRef<any>;
   isCreateSurveyDisabled: boolean = false; // Initialize as false
@@ -191,6 +192,9 @@ export class ValidationResultComponent implements OnInit {
     this.rowErrorsList = [...this.basicErrorsList.filter((element: any) => element.columnName.length === 0), ...this.advancedErrorList.filter((element: any) => element.columnName.length === 0)];
 
     // Update the error count for the current sheet
+
+    console.log(this.advancedErrorList,this.basicErrorsList,this.rowErrorsList,"advanced errors")
+
     this.errorsCountPerSheet[this.selectedSheet] = this.getTotalErrorsForSheet();
 
     // Recalculate total errors across all sheets
@@ -230,10 +234,15 @@ export class ValidationResultComponent implements OnInit {
     return this.getTotalErrors() > 0;
   }
 
- noErrorsInAllSheets(): boolean {
-  return this.sheetarr.every((sheetName: string) => {
-    return this.errorsCountPerSheet[sheetName] === 0;
-  });
+//  noErrorsInAllSheets(): boolean {
+//   return this.sheetarr.every((sheetName: string) => {
+//     return this.errorsCountPerSheet[sheetName] === 0;
+//   });
+// }
+
+noErrorsInAllSheets(): boolean {
+  console.log(this.validateresult)
+  return this.validateresult
 }
 
   goBack(): void {
@@ -249,6 +258,8 @@ export class ValidationResultComponent implements OnInit {
     this.columnNames = Object.keys(tableData[0]);
     this.data = new MatTableDataSource(tableData);
     this.selectedSheet = this.wbfile.SheetNames[1];
+    this.validateresult = this.errors.advancedErrors.data.some((item: any) => item.sheetName);
+    console.log(this.validateresult,"line 262")
 
     // Update the error lists based on the selected sheet
     this.advancedErrorList = this.errors.advancedErrors.data.filter((item: any) => item.sheetName === this.selectedSheet);

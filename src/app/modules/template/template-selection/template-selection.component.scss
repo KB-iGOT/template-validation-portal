@@ -1,3 +1,15 @@
+.portal-header {
+  text-align: center;
+  padding: 20px 0;
+  background-color: #f7f7f7;
+  border-bottom: 1px solid #ddd;
+}
+
+.portal-header h1 {
+  margin: 0;
+  color: #8b0000;
+}
+
 .shiksha-logo {
   height: 70px;
   padding-left: 30px;
@@ -38,27 +50,43 @@
   flex-direction: column;
 }
 
-.card-conatiner-upload {
+.card-container-upload {
   padding-top: 20px;
   display: grid;
   height: 30vh;
   grid-template-rows: 40% 30% 30%;
-  grid-gap: 20px;
+  // grid-gap: 20px;
 }
 
-.card-conatiner-download {
+.card-container-download {
   padding-top: 20px;
   display: grid;
   height: 30vh;
-  grid-template-rows: 70% 30%;
+  grid-template-rows: auto auto;
   grid-gap: 20px;
 }
 
-.tempplate-download, .tempplate-upload {
+.template-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.tempplate-download,
+.tempplate-upload {
   width: 250px;
   font-size: large;
   font-weight: 500;
   color: #8b0000;
+  text-align: center;
+  margin: 0 auto;
+}
+
+.center-text {
+  text-align: center;
+  font-weight: 500;
+  padding-left: 20px;
 }
 
 .template-upload-button-container {
@@ -67,21 +95,39 @@
   justify-content: center;
 }
 
+.template-upload-button-row {
+  display: flex;
+  justify-content: center;
+  padding-bottom: 10y00px;
+  // top: 200px;
+  align-items: center;
+  gap: 60px;
+  
+}
+
+
+
 .tempplate-card {
   display: flex;
   flex-wrap: wrap;
 }
 
-.upload-button {
-  background-color: #8b0000;
+.upload-button,
+.create-button,
+.download-button,
+.select-button {
+  background-color: rgb(0, 116, 182, 1) !important;
   color: white;
-  width: 250px;
+  width: 188px;
+  text-align: center;
 }
 
-.create-button {
-  background-color: #5db849; /* Green color */
+.download-button-small {
+  background-color: rgb(0, 116, 182, 1) !important;
   color: white;
-  width: 250px;
+  width: 120px;
+  text-align: center;
+  margin-top: -10px; /* Adjust this value to position the button higher */
 }
 
 .template-fileName {
@@ -91,12 +137,6 @@
   justify-content: center;
 }
 
-.download-button {
-  background-color: #5db849;
-  color: white;
-  width: 250px;
-}
-
 .select-div {
   display: flex;
   max-width: 80px;
@@ -104,7 +144,7 @@
   justify-content: center;
 }
 
-.card-conatiner p {
+.card-container p {
   font-weight: 500;
   padding-left: 20px;
 }
@@ -116,13 +156,31 @@
   justify-content: center;
 }
 
-.select-button {
-  width: 60%;
+.select-opt {
   text-align: center;
 }
 
-.select-opt {
+.full-width {
+  width: calc(100% - 140px); /* Adjusted width to accommodate the download button */
+}
+
+.dropdown-small {
+  width: 200px; /* Adjust the width as needed */
+  margin-left: 100px;
+  height: 40px;
+}
+
+.dropdown-large {
+  width: 250px; /* Adjust the width for the solution type dropdown */
+  margin: 0 auto; /* Center the dropdown */
+}
+
+.smaller-button {
+  background-color: rgb(0, 116, 182, 1) !important;
+  color: white;
+  width: 120px; /* Adjust the width as needed */
   text-align: center;
+  margin-top: -10px; /* Adjust this value to position the button higher */
 }
 
 .spinner {
@@ -134,13 +192,14 @@
   justify-content: center;
 }
 
-.spinner ::ng-deep .mat-progress-spinner circle, .mat-spinner circle {
+.spinner ::ng-deep .mat-progress-spinner circle,
+.mat-spinner circle {
   stroke: #8b0000;
 }
 
 @media (max-width: 1000px) {
   .template-selection-container {
-      display: flex;
-      flex-direction: column;
+    display: flex;
+    flex-direction: column;
   }
 }

@@ -14,26 +14,29 @@
   </section>
 
   <div class="validation-result">
+    <div class="sheet-button">
     <p class="validation-sections">Validation Result</p>
     <p>Total Errors: {{ getTotalErrors() }}</p>
-    <p *ngIf="noErrorsInAllSheets()">Validation Pass</p>
-    <p *ngIf="!noErrorsInAllSheets()">Validation Fail</p> <!-- Optionally, you can show a "Fail" message -->
+    <p *ngIf="!noErrorsInAllSheets()">Validation Pass</p>
+    <p *ngIf="noErrorsInAllSheets()">Validation Fail</p> <!-- Optionally, you can show a "Fail" message -->
+</div>
+    <div class="download_div">
+        <div class="export_div">
+            <button (click)="export()" mat-raised-button class="export-button">
+                Export Excel
+            </button>
+        </div>
+        <div class="export_div">
+            <button mat-raised-button class="export-button" (click)="errorExcelDownload()">
+                Export Errors
+            </button>
+        </div>
+    </div>
+
   </div>
 
   <div class="flex-container">
-      <div class="download_div">
-          <div class="export_div">
-              <button (click)="export()" mat-raised-button class="export-button">
-                  <mat-icon>download</mat-icon> Export excel
-              </button>
-          </div>
-          <div class="export_div">
-              <button mat-raised-button class="export-button" (click)="errorExcelDownload()">
-                  <mat-icon>download</mat-icon> Export errors
-              </button>
-          </div>
-      </div>
-
+      
       <div class="table_container">
           <div class="arrayOfSheet_div">
               <ng-container *ngFor="let s of sheetarr">
