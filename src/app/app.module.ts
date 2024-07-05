@@ -11,6 +11,9 @@ import { MaterialModule } from './material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr';
+import {MatDividerModule} from '@angular/material/divider';
+import { MatFormFieldModule } from '@angular/material/form-field';
+
 
 
 @NgModule({
@@ -26,9 +29,12 @@ import { ToastrModule } from 'ngx-toastr';
     TemplateModule,
     MaterialModule,
     BrowserAnimationsModule,
+    MatFormFieldModule,
     FormsModule,
     ReactiveFormsModule,
+    MatDividerModule,
     ToastrModule.forRoot()
+    
   ],
   providers: [],
   bootstrap: [AppComponent]
