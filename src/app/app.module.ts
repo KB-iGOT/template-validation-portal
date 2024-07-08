@@ -33,7 +33,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     FormsModule,
     ReactiveFormsModule,
     MatDividerModule,
-    ToastrModule.forRoot()
+    ToastrModule.forRoot({ 
+      positionClass: 'toast-top-center'
+    })
     
   ],
   providers: [],
