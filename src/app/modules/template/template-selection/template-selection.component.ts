@@ -71,6 +71,7 @@ export class TemplateSelectionComponent implements OnInit {
     const url = this.selectedFile.templateLink;
     let capturedId = url.match(/\/d\/(.+)\//);
     window.open(`https://docs.google.com/spreadsheets/d/${capturedId[1]}/export?format=xlsx`);
+    this.toaster.success('Downloaded successfully');
   }
 
   validateTemplate() {
@@ -155,7 +156,9 @@ export class TemplateSelectionComponent implements OnInit {
     }
   }
 
-  downloadSurveySolutions() {
+  downloadSurveySolutions(file:any) {
+    console.log(file.name)
+    if (file.name==="Survey"){
     this.loader = true;
     this.templateService.getSurveySolutions().subscribe(
       (response: any) => {
@@ -166,7 +169,9 @@ export class TemplateSelectionComponent implements OnInit {
           link.href = csvPath;
           link.download = 'survey_solutions.csv';
           link.click();
-          alert("Downloaded successfully")
+          this.toaster.success('Downloaded successfully');
+          this.selectedFile=""
+          // alert("Downloaded successfully")
         } else {
           console.error('Invalid response or missing csvPath.');
           // Handle error or show notification
@@ -179,6 +184,9 @@ export class TemplateSelectionComponent implements OnInit {
         // Handle error or show notification
       }
     );
+  } else{
+    alert("Please select a file to download")
+  }
   }
 
 

@@ -48,7 +48,8 @@ export class ValidationResultComponent implements OnInit {
     private router: Router,
     private templateService: TemplateService,
     private authService: AuthenticationService,
-    private _location: Location
+    private _location: Location,
+    private toaster: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -207,10 +208,12 @@ export class ValidationResultComponent implements OnInit {
 
   export(): void {
     XLSX.writeFile(this.wbfile, `${this.fileName}`);
+    this.toaster.success('Downloaded successfully');
   }
 
   errorExcelDownload(): void {
     window.open(this.errors.errFileLink, '_blank');
+    this.toaster.success('Downloaded successfully');
   }
 
   getTotalErrors(): number {
