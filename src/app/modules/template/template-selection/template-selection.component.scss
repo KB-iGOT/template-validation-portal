@@ -1,128 +1,233 @@
-.shiksha-logo {
- height: 70px;
- padding-left: 30px;
+.portal-header {
+  text-align: center;
+  padding: 20px 0;
+  background-color: #f7f7f7;
+  border-bottom: 1px solid #ddd;
 }
-.header-container{
+
+.portal-header h1 {
+  margin: 0;
+  color: #8b0000;
+}
+
+.shiksha-logo {
+  height: 70px;
+  padding-left: 30px;
+}
+
+.header-container {
   height: 10%;
   box-shadow: 3px 3px 3px 3px rgb(224, 223, 223);
   display: grid;
   grid-template-columns: 80% 20%;
- 
 }
-.log-out{
+
+.log-out {
   padding-top: 20px;
   text-align: center;
   align-items: center;
- 
 }
-.template-selection-container{
-  height: 88vh;
-  display:grid;
+
+.template-selection-container {
+  // height: 88vh;
+  display: grid;
   grid-template-columns: 50% 50%;
   margin: 5px;
 }
-.tempplate-download-card{
-   background-color: #f7f7f7;
-   margin: 15%;
-   
-   
+
+.tempplate-download-card,
+.tempplate-upload-card {
+  padding: 1rem;
+  margin: 15%;
+  border-radius: 0.5rem;
 }
-.tempplate-upload-card{
-  background-color: #f7f7f7;
-  margin: 15%
-  
-}
-.container{
+
+.container {
   display: flex;
   flex-direction: column;
 }
-.card-conatiner-upload{
+
+.card-container-upload {
   padding-top: 20px;
   display: grid;
   height: 30vh;
   grid-template-rows: 40% 30% 30%;
-  grid-gap: 20px;
-
 }
-.card-conatiner-download{
+
+.card-container-download {
   padding-top: 20px;
   display: grid;
   height: 30vh;
-  grid-template-rows: 70% 30%;
+  grid-template-rows: auto auto;
   grid-gap: 20px;
 }
-.tempplate-download, .tempplate-upload{
-  width: 250px;
+
+.template-row {
+  flex:1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  // gap: 10px;
+}
+
+.tempplate-download,
+.tempplate-upload {
+  flex:1;
+  // width: 250px;
   font-size: large;
   font-weight: 500;
-  color: #8b0000;
-
+  color: rgb(0, 116, 182, 1) !important  ;
+  text-align: center;
+  margin: 0 auto;
+  margin-top: 2rem;
 }
-.template-upload-button-container{
+
+.center-text {
+  text-align: center;
+  font-weight: 500;
+  padding-left: 20px;
+}
+
+.template-upload-button-container {
   text-align: center;
   align-items: center;
   justify-content: center;
 }
-.tempplate-card{
+
+.template-upload-button-row {
+  display: flex;
+  justify-content: center;
+  padding-bottom: 25px;
+  align-items: center;
+  gap: 20px;
+}
+
+.tempplate-card {
   display: flex;
   flex-wrap: wrap;
 }
-.upload-button{
-  background-color: #8b0000;
+
+.upload-button,
+.create-button,
+.download-button,
+.select-button {
+  flex:1;
+  background-color: rgb(0, 116, 182, 1) !important;
   color: white;
-  width: 250px;
+  // width: 250px;
+  height: 50px; /* Height adjusted */
+  line-height: 40px; /* Center the text vertically */
+  text-align: center;
+  margin-left: 15px; /* Shift to the left */
+  margin-top: 18px; /* Shift down */
 }
-.template-fileName{
+
+.download-button-small {
+  flex:1;
+  background-color: rgb(0, 116, 182, 1) !important;
+  color: white;
+  // width: 120px;
+  text-align: center;
+  margin-top: -10px; /* Adjust this value to position the button higher */
+}
+
+.template-fileName {
   padding-top: 10px;
   text-align: center;
   align-items: center;
   justify-content: center;
 }
-.download-button{
-  background-color: #5db849;
-  color: white;
-  width: 250px;
-}
-.select-div{
+
+.select-div {
   display: flex;
   max-width: 80px;
   align-items: center;
   justify-content: center;
 }
 
-.card-conatiner  p{
+.card-container p {
   font-weight: 500;
   padding-left: 20px;
 }
-.template-button{
+
+.template-button {
   display: flex;
   padding-top: 20px;
   align-items: center;
   justify-content: center;
 }
-.select-button{
-  width:60%;
-  text-align: center;
-}
-.select-opt{
+
+.select-opt {
   text-align: center;
 }
 
-.spinner{
-  display:flex;
+.full-width {
+  width: calc(100% - 140px); /* Adjusted width to accommodate the download button */
+}
+
+.dropdown-small {
+  flex:1;
+  // width: 250px; /* Adjust the width as needed */
+  margin-left: 124px;
+  height: 40px; /* Matches the height of the button */
+}
+
+.dropdown-large {
+  border-color: rgb(0, 116, 182, 1) !important;;
+  flex: 0.5;
+  margin-top: 3rem;
+  margin-left: 200;
+  margin-right: 200;
+  // width: 300px; /* Decreased width */
+}
+
+.smaller-button {
+  flex:1;
+  background-color: rgb(0, 116, 182, 1) !important;
+  color: white;
+  // width: 200px; /* Decreased width */
+  height: 50px; /* Decreased height */
+  line-height: 40px; /* Adjusted line height to center text vertically */
+  text-align: center;
+  margin-top: -10px;
+}
+
+.spinner {
+  display: flex;
   flex-direction: column;
-  gap:20px;
+  gap: 20px;
   padding-top: 15%;
   align-items: center;
   justify-content: center;
 }
-.spinner ::ng-deep .mat-progress-spinner circle, .mat-spinner circle {
-  stroke: #8b0000;
+
+.spinner ::ng-deep .mat-progress-spinner circle,
+.mat-spinner circle {
+  stroke: rgb(0, 116, 182, 1) !important  ;
 }
 
 @media (max-width: 1000px) {
- .template-selection-container{
-  display: flex;
-  flex-direction: column;
- }
+  .template-selection-container {
+    display: flex;
+    flex-direction: column;
+  }
 }
+
+.portal-header h2 {
+  margin: 0;
+  color: rgb(0, 116, 182, 1) !important;
+  font-size: 2.5rem; /* Adjust the font size as needed */
+  padding: 20px 0; /* Adjust padding as needed */
+}
+.mat-form-field{
+  margin-left: 1px;
+}
+.mat-label{
+  color: black;
+}
+.toast-top-center{
+  top: -50%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+

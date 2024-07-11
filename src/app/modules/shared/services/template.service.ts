@@ -1,6 +1,7 @@
 import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { DataService } from '../data/data.service';
+import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
@@ -8,6 +9,7 @@ export class TemplateService {
   [x: string]: any;
   templateFile:any;
   templateError:any;
+  userSelectedFile:any;
   constructor(private dataService: DataService) { }
 
   selectTemplates() {
@@ -17,6 +19,7 @@ export class TemplateService {
     }
     return this.dataService.get(reqParam);
   }
+  
 
   uploadTemplates(file: any) {
 
@@ -30,6 +33,16 @@ export class TemplateService {
       data: formData
     }
 
+    return this.dataService.post(reqParam);
+  }
+
+  surveyCreation(file_path:any){
+    const reqParam = {
+      url: 'survey/create',
+      data: {
+        file:file_path
+      }
+    }
     return this.dataService.post(reqParam);
   }
 
@@ -72,5 +85,12 @@ export class TemplateService {
     }
     return this.dataService.post(reqParam);
 
+    }
+    getSurveySolutions(): Observable<any> {
+      const reqParam = {
+        url: 'survey/getSolutions'
+      };
+      return this.dataService.post(reqParam);
+    }
   }
-}
+

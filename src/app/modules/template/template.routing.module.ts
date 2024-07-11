@@ -14,7 +14,7 @@ const routes: Routes = [
     path: 'validation-result', component: ValidationResultComponent
   },
   {
-    path: 'template-success', component:TemplateSuccessComponent 
+    path: 'template-success/:solutionId', component:TemplateSuccessComponent 
   },
   {
     path: 'template-report', component:TemplateReportComponent

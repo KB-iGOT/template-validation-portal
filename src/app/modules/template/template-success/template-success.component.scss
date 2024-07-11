@@ -1,72 +1,91 @@
-
-  .success-container{
-    display: flex;
+.success-container {
+  display: flex;
   align-items: center;
   justify-content: center;
   margin-top: 10%;
-  
-  }
-
-.tempplate-card{
-  display: flex;
- padding: 5%;
- background-color: #f7f7f7;
 }
 
-.tempplate-section{
+.template-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 5%;
+  background-color: #f7f7f7;
+  width: 80%; /* Adjust width as needed */
+  max-width: 800px; /* Set a maximum width for larger screens */
+  box-shadow: rgba(0, 0, 0, 0.15) 3px 6px 3px 0px; /* Add box-shadow for better visibility */
+}
+
+.template-section {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 20px;
 }
-.export-container{
+
+.export-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 20px;
 }
-h3 {
-    color: #8b0000cc;
-    font-weight: bold;
-    font-size: 3rem;
-  }
-  .success_elevate{
-    color: #008000b5;
-  }
-  
-  .explore-button{
-    margin-top: 30px;
-    height: 40px;
-    border-radius: 20px;
-    background-color: #8b0000;
-    padding:0 30px;
-    color: white;
-    box-shadow: rgba(0, 0, 0, 0.15) 3px 6px 3px 0px;
 
-  }
+.congrats-message {
+  color: #8b0000cc;
+  font-weight: bold;
+  font-size: 2rem; /* Increased font size */
+  text-align: center; /* Centered text */
+}
 
-  .shiksha-logo {
-    height: 70px;
-    padding-left: 30px;
-   }
-   .header-container{
-     height: 10%;
-     display: grid;
-     box-shadow: 3px 3px 3px 3px rgb(224, 223, 223);
-     grid-template-columns: 80% 20%;
-  
-   }
-   .log-out{
-     padding-top: 20px;
-     text-align: center;
-     align-items: center;
-  
-   }
-   .export-button {
-    border-radius: 20px;
-    background-color: #008000b5;
-    padding: 0 70px;
-    color: white;
-  }
+.explore-button {
+  margin-top: 30px;
+  height: 40px;
+  border-radius: 20px;
+  background-color: #8b0000;
+  padding: 0 30px;
+  color: white;
+  box-shadow: rgba(0, 0, 0, 0.15) 3px 6px 3px 0px;
+}
+
+.shiksha-logo {
+  height: 70px;
+  padding-left: 30px;
+}
+
+.header-container {
+  height: 10%;
+  display: grid;
+  box-shadow: 3px 3px 3px 3px rgb(224, 223, 223);
+  grid-template-columns: 80% 20%;
+}
+
+.log-out {
+  padding-top: 20px;
+  text-align: center;
+  align-items: center;
+}
+
+.export-button {
+  border-radius: 20px;
+  background-color: #008000b5;
+  padding: 0 70px;
+  color: white;
+}
+h2 {
+  text-align: center;
+  align-items: center;
+}
+p {
+  font-size: 10px
+}
+
+.copied-message {
+  color: green;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+

@@ -1,85 +1,85 @@
-
 <div class="container">
-   
+    <!-- <div class="portal-header">
+        <h1>Solution Upload Portal</h1>
+    </div> -->
     <div class="header-container">
-        <div class="header-image-container"> <img class="shiksha-logo"
-                src="../../../../assets/Images/shikshalokam-logo.png" alt="">
+        <div class="header-image-container">
+            <img class="shiksha-logo" src="../../../../assets/Images/shikshalokam-logo.png" alt="">
         </div>
         <div class="log-out" *ngIf="isUserLogin" (click)="onLogout()">
             <button mat-raised-button>Logout</button>
         </div>
-
     </div>
+    <div class="portal-header">
+        <h2>Solution Upload Portal</h2>
+    </div>
+
     <div *ngIf="loader" class="spinner">
-        <mat-spinner  [diameter]="70"></mat-spinner>
+        <mat-spinner [diameter]="70"></mat-spinner>
     </div>
-    <div class="template-selection-container" *ngIf="!loader">
 
-        <mat-card class="tempplate-download-card">
+    <div class="template-selection-container" *ngIf="!loader">
+        <mat-card class="tempplate-download-card mat-elevation-z8">
             <div class="tempplate-download">
-                <p>Template Download Section</p>
+                <p>Template Download</p>
+                <mat-divider></mat-divider>
             </div>
 
             <mat-card-content class="tempplate-download-section">
-
-                <div class="card-conatiner-download">
-
-                    <div>
-                        <p>Please select template to download</p>
-                        <div class="template-button">
-                            <button mat-raised-button class="select-button">
-                                <mat-select placeholder="Select Template">
-                                    <mat-option *ngFor="let downloadTemplate of downloadTemplates"
-                                        [value]="downloadTemplate" class="select-opt"
-                                        (click)="onCickSelectedTemplate(downloadTemplate)">
-                                        {{ downloadTemplate.name | titlecase }}
-                                    </mat-option>
-                                </mat-select>
-                            </button>
-                        </div>
-
+                <div class="card-container-download">
+                    <div class="template-row">
+                        <mat-form-field appearance="outline" class="dropdown-small">
+                            <mat-label>Select Template</mat-label>
+                            <mat-select (selectionChange)="onCickSelectedTemplate($event.value)">
+                                <mat-option *ngFor="let downloadTemplate of downloadTemplates" [value]="downloadTemplate">
+                                    {{ downloadTemplate.name | titlecase }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <button (click)="templateDownload()" mat-raised-button class="upload-button create-button">Download</button>
                     </div>
-
-
-
-                    <div class="template-button">&nbsp;&nbsp;&nbsp;
-                        <button (click)="templateDownload()" mat-raised-button class="download-button"> Download
-                        </button>
+                    <div class="template-row">
+                        <mat-form-field appearance="outline" class="dropdown-small">
+                            <mat-label>List of created solutions</mat-label>
+                            <mat-select (selectionChange)="onCickSelectedTemplate($event.value)">
+                                <mat-option *ngFor="let downloadTemplate of downloadTemplates" [value]="downloadTemplate">
+                                    {{ downloadTemplate.name | titlecase }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <button (click)="downloadSurveySolutions(this.selectedFile)" mat-raised-button class="upload-button create-button">Download</button>
                     </div>
                 </div>
             </mat-card-content>
         </mat-card>
 
-        <mat-card class="tempplate-upload-card">
+        <mat-card class="tempplate-upload-card mat-elevation-z8">
             <div class="tempplate-upload">
-                <p>Template Upload Section</p>
+                <p>Template Upload</p>
+                <mat-divider></mat-divider>
             </div>
+            <!-- <mat-divider></mat-divider> -->
+
 
             <mat-card-content class="tempplate-upload-section">
-
-                <div class="card-conatiner-upload">
-                    <div>
-                        <p>Please select file type to upload</p>
-                        <div class="template-button">
-                            <button mat-raised-button class="select-button">
-                                <mat-select placeholder="Select file type">
-                                    <mat-option *ngFor="let uploadTempplate of uploadTemplates"
-                                        [value]="uploadTempplate" class="select-opt"
-                                        (click)="fileUpload(fileInput,uploadTempplate)" (change)="onChange($event)">
-                                        <input type="file" accept=".xlsx" style="display: none;" #fileInput
-                                            (change)="getFileDetails($event)" />
-                                        <span> {{uploadTempplate | titlecase}} </span>
-                                    </mat-option>
-                                </mat-select>
-                            </button>
-                        </div>
+                <div class="card-container-upload">
+                    <div class="template-row">
+                        <mat-form-field appearance="outline" class="dropdown-large">
+                            <mat-label>Select Solution type</mat-label>
+                            <mat-select (selectionChange)="fileUpload(fileInput, $event.value)">
+                                <mat-option *ngFor="let uploadTempplate of uploadTemplates" [value]="uploadTempplate" class="select-opt" (click)="fileUpload(fileInput, uploadTempplate)" (change)="onChange($event)">
+                                    {{ uploadTempplate | titlecase }}
+                                    <input type="file" accept=".xlsx" style="display: none;" #fileInput (change)="getFileDetails($event)" />
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
                     </div>
 
-                    <div class="template-fileName"> {{fileName}}</div>
-                    <div class="template-upload-button-container">&nbsp;&nbsp;&nbsp;
-                        <button (click)="templateUpload()" mat-raised-button class="upload-button"> Upload </button>
+                    <div class="template-fileName">{{ fileName }}</div>
+                    <div class="template-upload-button-row">
+                        <button (click)="validateTemplate()" mat-raised-button class="smaller-button">Validate</button>
+                        <button (click)="validateAndCreateSurvey()" mat-raised-button class="smaller-button">Create</button>
                     </div>
-
                 </div>
             </mat-card-content>
         </mat-card>
