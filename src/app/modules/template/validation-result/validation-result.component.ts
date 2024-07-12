@@ -54,6 +54,7 @@ export class ValidationResultComponent implements OnInit {
 
   ngOnInit(): void {
     this.errors = this.templateService.templateError;
+    console.log(this.errors,"errors")
     this.onFileChange(this.templateService.templateFile);
     this.isUserLogin = this.authService.isUserLoggedIn();
   }
@@ -237,16 +238,19 @@ export class ValidationResultComponent implements OnInit {
     return this.getTotalErrors() > 0;
   }
 
-//  noErrorsInAllSheets(): boolean {
-//   return this.sheetarr.every((sheetName: string) => {
-//     return this.errorsCountPerSheet[sheetName] === 0;
-//   });
-// }
-
-noErrorsInAllSheets(): boolean {
-  console.log(this.validateresult)
-  return this.validateresult
+ noErrorsInAllSheets(): boolean {
+  return this.sheetarr.every((sheetName: string) => {
+    console.log(this.validateresult,this.errorsCountPerSheet[sheetName],"Line243")
+    console.log(this.errorsCountPerSheet[sheetName] === 0 && this.validateresult,"Line244")
+    console.log(this.errorsCountPerSheet[sheetName] === 0 || this.validateresult,"Line245")
+    return !(this.errorsCountPerSheet[sheetName] === 0) || !(this.validateresult)
+  });
 }
+
+// noErrorsInAllSheets(): boolean {
+//   console.log(this.validateresult)
+//   return this.validateresult
+// }
 
   goBack(): void {
     this._location.back();
@@ -262,6 +266,7 @@ noErrorsInAllSheets(): boolean {
     this.data = new MatTableDataSource(tableData);
     this.selectedSheet = this.wbfile.SheetNames[1];
     this.validateresult = this.errors.advancedErrors.data.some((item: any) => item.sheetName);
+    this.validateresult = this.errors.basicErrors.data.some((item: any) => item.sheetName);
     console.log(this.validateresult,"line 262")
 
     // Update the error lists based on the selected sheet
@@ -272,6 +277,7 @@ noErrorsInAllSheets(): boolean {
     // Initialize the errors count for each sheet
     this.sheetarr.forEach((sheetName: string) => {
       this.errorsCountPerSheet[sheetName] = this.getTotalErrorsForSheet();
+      
     });
 
     // Calculate total errors across all sheets
