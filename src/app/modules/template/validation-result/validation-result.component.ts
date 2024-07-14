@@ -190,6 +190,9 @@ export class ValidationResultComponent implements OnInit {
     this.data = new MatTableDataSource(data);
     this.selectedSheet = s;
 
+  
+    
+
     this.advancedErrorList = this.errors.advancedErrors.data.filter((item: any) => item.sheetName === this.selectedSheet);
     this.basicErrorsList = this.errors.basicErrors.data.filter((item: any) => item.sheetName === this.selectedSheet);
     this.rowErrorsList = [...this.basicErrorsList.filter((element: any) => element.columnName.length === 0), ...this.advancedErrorList.filter((element: any) => element.columnName.length === 0)];
@@ -240,6 +243,9 @@ export class ValidationResultComponent implements OnInit {
 
  noErrorsInAllSheets(): boolean {
   return this.sheetarr.every((sheetName: string) => {
+    console.log(this.validateresult,"dbhujsbfhsjufbnbgijngijdr")
+    console.log(!(this.errorsCountPerSheet[sheetName] === 0) || !(this.validateresult))
+
     return !(this.errorsCountPerSheet[sheetName] === 0) || !(this.validateresult) 
   });
 }
@@ -261,7 +267,7 @@ export class ValidationResultComponent implements OnInit {
     this.columnIdentifier = tableData[0];
     this.columnNames = Object.keys(tableData[0]);
     this.data = new MatTableDataSource(tableData);
-    this.selectedSheet = this.wbfile.SheetNames[1];
+    this.selectedSheet = this.wbfile.SheetNames[0];
     this.validateresult = this.errors.advancedErrors.data.some((item: any) => item.sheetName);
     this.validateresult = this.errors.basicErrors.data.some((item: any) => item.sheetName);
     if (this.errors.advancedErrors.data.length > 0||this.errors.basicErrors.data.length >0){
@@ -291,3 +297,4 @@ export class ValidationResultComponent implements OnInit {
     this.calculateTotalErrors();
   }
 }
+
