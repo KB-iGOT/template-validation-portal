@@ -54,7 +54,6 @@ export class ValidationResultComponent implements OnInit {
 
   ngOnInit(): void {
     this.errors = this.templateService.templateError;
-    console.log(this.errors,"errors")
     this.onFileChange(this.templateService.templateFile);
     this.isUserLogin = this.authService.isUserLoggedIn();
   }
@@ -112,6 +111,7 @@ export class ValidationResultComponent implements OnInit {
     if (this.advancedErrorList.length) {
       item = this.advancedErrorList.map((element: any): any => {
         if ((element.rowNumber === index || (Array.isArray(element.rowNumber) && element.rowNumber.includes(index))) && this.columnIdentifier[column] === element.columnName) {
+          
           return { error: element.errMessage, suggestion: element.suggestion };
         }
       }).filter((element: any) => element);
@@ -124,6 +124,7 @@ export class ValidationResultComponent implements OnInit {
     if (this.basicErrorsList.length) {
       item = this.basicErrorsList.map((element: any): any => {
         if ((element.rowNumber === index || (Array.isArray(element.rowNumber) && element.rowNumber.includes(index))) && this.columnIdentifier[column] === element.columnName) {
+          
           return { error: element.errMessage, suggestion: element.suggestion };
         }
       }).filter((element: any) => element);
@@ -195,7 +196,6 @@ export class ValidationResultComponent implements OnInit {
 
     // Update the error count for the current sheet
 
-    console.log(this.advancedErrorList,this.basicErrorsList,this.rowErrorsList,"advanced errors")
 
     this.errorsCountPerSheet[this.selectedSheet] = this.getTotalErrorsForSheet();
 
@@ -240,10 +240,7 @@ export class ValidationResultComponent implements OnInit {
 
  noErrorsInAllSheets(): boolean {
   return this.sheetarr.every((sheetName: string) => {
-    console.log(this.validateresult,this.errorsCountPerSheet[sheetName],"Line243")
-    console.log(this.errorsCountPerSheet[sheetName] === 0 && this.validateresult,"Line244")
-    console.log(this.errorsCountPerSheet[sheetName] === 0 || this.validateresult,"Line245")
-    return !(this.errorsCountPerSheet[sheetName] === 0) || !(this.validateresult)
+    return !(this.errorsCountPerSheet[sheetName] === 0) || !(this.validateresult) 
   });
 }
 
@@ -267,10 +264,20 @@ export class ValidationResultComponent implements OnInit {
     this.selectedSheet = this.wbfile.SheetNames[1];
     this.validateresult = this.errors.advancedErrors.data.some((item: any) => item.sheetName);
     this.validateresult = this.errors.basicErrors.data.some((item: any) => item.sheetName);
-    console.log(this.validateresult,"line 262")
+    if (this.errors.advancedErrors.data.length > 0||this.errors.basicErrors.data.length >0){
+      console.log("Entering")
+      this.validateresult=true
 
+    }
+    console.log(this.errors.basicErrors.data,"Basic errors")
     // Update the error lists based on the selected sheet
+
+
     this.advancedErrorList = this.errors.advancedErrors.data.filter((item: any) => item.sheetName === this.selectedSheet);
+    console.log(this.selectedSheet,"selected sheet")
+    console.log(this.errors.advancedErrors.data,"errors.data")
+    console.log(this.advancedErrorList,"advanced errors")
+    console.log(this.validateresult,"validateresult")
     this.basicErrorsList = this.errors.basicErrors.data.filter((item: any) => item.sheetName === this.selectedSheet);
     this.rowErrorsList = [...this.basicErrorsList.filter((element: any) => element.columnName.length === 0), ...this.advancedErrorList.filter((element: any) => element.columnName.length === 0)];
 
