@@ -111,6 +111,7 @@ export class ValidationResultComponent implements OnInit {
     if (this.advancedErrorList.length) {
       item = this.advancedErrorList.map((element: any): any => {
         if ((element.rowNumber === index || (Array.isArray(element.rowNumber) && element.rowNumber.includes(index))) && this.columnIdentifier[column] === element.columnName) {
+          
           return { error: element.errMessage, suggestion: element.suggestion };
         }
       }).filter((element: any) => element);
@@ -123,6 +124,7 @@ export class ValidationResultComponent implements OnInit {
     if (this.basicErrorsList.length) {
       item = this.basicErrorsList.map((element: any): any => {
         if ((element.rowNumber === index || (Array.isArray(element.rowNumber) && element.rowNumber.includes(index))) && this.columnIdentifier[column] === element.columnName) {
+          
           return { error: element.errMessage, suggestion: element.suggestion };
         }
       }).filter((element: any) => element);
@@ -188,13 +190,15 @@ export class ValidationResultComponent implements OnInit {
     this.data = new MatTableDataSource(data);
     this.selectedSheet = s;
 
+  
+    
+
     this.advancedErrorList = this.errors.advancedErrors.data.filter((item: any) => item.sheetName === this.selectedSheet);
     this.basicErrorsList = this.errors.basicErrors.data.filter((item: any) => item.sheetName === this.selectedSheet);
     this.rowErrorsList = [...this.basicErrorsList.filter((element: any) => element.columnName.length === 0), ...this.advancedErrorList.filter((element: any) => element.columnName.length === 0)];
 
     // Update the error count for the current sheet
 
-    console.log(this.advancedErrorList,this.basicErrorsList,this.rowErrorsList,"advanced errors")
 
     this.errorsCountPerSheet[this.selectedSheet] = this.getTotalErrorsForSheet();
 
@@ -237,16 +241,19 @@ export class ValidationResultComponent implements OnInit {
     return this.getTotalErrors() > 0;
   }
 
-//  noErrorsInAllSheets(): boolean {
-//   return this.sheetarr.every((sheetName: string) => {
-//     return this.errorsCountPerSheet[sheetName] === 0;
-//   });
-// }
+ noErrorsInAllSheets(): boolean {
+  return this.sheetarr.every((sheetName: string) => {
+    console.log(this.validateresult,"dbhujsbfhsjufbnbgijngijdr")
+    console.log(!(this.errorsCountPerSheet[sheetName] === 0) || !(this.validateresult))
 
-noErrorsInAllSheets(): boolean {
-  console.log(this.validateresult)
-  return this.validateresult
+    return !(this.errorsCountPerSheet[sheetName] === 0) || !(this.validateresult) 
+  });
 }
+
+// noErrorsInAllSheets(): boolean {
+//   console.log(this.validateresult)
+//   return this.validateresult
+// }
 
   goBack(): void {
     this._location.back();
@@ -260,21 +267,34 @@ noErrorsInAllSheets(): boolean {
     this.columnIdentifier = tableData[0];
     this.columnNames = Object.keys(tableData[0]);
     this.data = new MatTableDataSource(tableData);
-    this.selectedSheet = this.wbfile.SheetNames[1];
+    this.selectedSheet = this.wbfile.SheetNames[0];
     this.validateresult = this.errors.advancedErrors.data.some((item: any) => item.sheetName);
-    console.log(this.validateresult,"line 262")
+    this.validateresult = this.errors.basicErrors.data.some((item: any) => item.sheetName);
+    if (this.errors.advancedErrors.data.length > 0||this.errors.basicErrors.data.length >0){
+      console.log("Entering")
+      this.validateresult=true
 
+    }
+    console.log(this.errors.basicErrors.data,"Basic errors")
     // Update the error lists based on the selected sheet
+
+
     this.advancedErrorList = this.errors.advancedErrors.data.filter((item: any) => item.sheetName === this.selectedSheet);
+    console.log(this.selectedSheet,"selected sheet")
+    console.log(this.errors.advancedErrors.data,"errors.data")
+    console.log(this.advancedErrorList,"advanced errors")
+    console.log(this.validateresult,"validateresult")
     this.basicErrorsList = this.errors.basicErrors.data.filter((item: any) => item.sheetName === this.selectedSheet);
     this.rowErrorsList = [...this.basicErrorsList.filter((element: any) => element.columnName.length === 0), ...this.advancedErrorList.filter((element: any) => element.columnName.length === 0)];
 
     // Initialize the errors count for each sheet
     this.sheetarr.forEach((sheetName: string) => {
       this.errorsCountPerSheet[sheetName] = this.getTotalErrorsForSheet();
+      
     });
 
     // Calculate total errors across all sheets
     this.calculateTotalErrors();
   }
 }
+
