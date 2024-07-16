@@ -94,9 +94,13 @@ export class TemplateSelectionComponent implements OnInit {
             this.loader = false;
             this.templateService.templateError = data.result;
             this.router.navigate(['/template/validation-result']);
+
           },
+          
           (error: any) => {
             this.loader = false;
+
+
           }
         );
       });
@@ -119,7 +123,7 @@ export class TemplateSelectionComponent implements OnInit {
               this.loader = false;
               console.log(data.result,"Line 101")
   
-              // if (!data.result.advancedErrors && !data.result.basicErrors) {
+              if (data.result.advancedErrors.data.length == 0 && data.result.basicErrors.data.length == 0) {
                 console.log("Entering")
                 this.templateService.surveyCreation(this.templateService.userSelectedFile).subscribe(
                   (surveyEvent: any) => {
@@ -140,10 +144,10 @@ export class TemplateSelectionComponent implements OnInit {
 
                   }
                 );
-              // } else {
-              //   this.templateService.templateError = data.result;
-              //   this.router.navigate(['/template/validation-result']); // Navigate to validation result page
-              // }
+              } else {
+                this.templateService.templateError = data.result;
+                this.router.navigate(['/template/validation-result']); // Navigate to validation result page
+              }
             },
             (validationError: any) => {
               this.loader = false;
