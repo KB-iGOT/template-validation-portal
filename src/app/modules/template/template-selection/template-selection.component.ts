@@ -10,6 +10,7 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./template-selection.component.scss'],
 })
 export class TemplateSelectionComponent implements OnInit {
+  selectFile: any;
   selectedFile: any;
   fileInput: any;
   fileName = '';
@@ -59,7 +60,11 @@ export class TemplateSelectionComponent implements OnInit {
     this.isUserLogin = this.authService.isUserLoggedIn();
   }
 
-  onCickSelectedTemplate(selectedTemplate: any) {
+  onCickSelectedSurveyTemplate(selectedTemplate: any) {
+    this.selectFile = selectedTemplate;
+  }
+
+  onCickSelectedSolutionTemplate(selectedTemplate: any) {
     this.selectedFile = selectedTemplate;
   }
 
@@ -68,11 +73,16 @@ export class TemplateSelectionComponent implements OnInit {
   }
 
   templateDownload() {
-    const url = this.selectedFile.templateLink;
+    if (this.selectFile){
+    const url = this.selectFile.templateLink;
     let capturedId = url.match(/\/d\/(.+)\//);
     window.open(`https://docs.google.com/spreadsheets/d/${capturedId[1]}/export?format=xlsx`);
     this.toaster.success('Downloaded successfully');
+    this.selectFile = ""
+  }else{
+    alert("Please select a file to download")
   }
+}
 
   validateTemplate() {
     this.loader = true;
