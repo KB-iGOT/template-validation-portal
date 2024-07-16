@@ -30,7 +30,7 @@
                     <div class="template-row">
                         <mat-form-field appearance="outline" class="dropdown-small">
                             <mat-label>Select Template</mat-label>
-                            <mat-select (selectionChange)="onCickSelectedTemplate($event.value)">
+                            <mat-select (selectionChange)="onCickSelectedSurveyTemplate($event.value)">
                                 <mat-option *ngFor="let downloadTemplate of downloadTemplates" [value]="downloadTemplate">
                                     {{ downloadTemplate.name | titlecase }}
                                 </mat-option>
@@ -41,7 +41,7 @@
                     <div class="template-row">
                         <mat-form-field appearance="outline" class="dropdown-small">
                             <mat-label>List of created solutions</mat-label>
-                            <mat-select (selectionChange)="onCickSelectedTemplate($event.value)">
+                            <mat-select (selectionChange)="onCickSelectedSolutionTemplate($event.value)">
                                 <mat-option *ngFor="let downloadTemplate of downloadTemplates" [value]="downloadTemplate">
                                     {{ downloadTemplate.name | titlecase }}
                                 </mat-option>
