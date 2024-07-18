@@ -1,6 +1,7 @@
 import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { DataService } from '../data/data.service';
+import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
@@ -8,6 +9,7 @@ export class TemplateService {
   [x: string]: any;
   templateFile:any;
   templateError:any;
+  userSelectedFile:any;
   constructor(private dataService: DataService) { }
 
   selectTemplates() {
@@ -17,6 +19,7 @@ export class TemplateService {
     }
     return this.dataService.get(reqParam);
   }
+  
 
   uploadTemplates(file: any) {
 
@@ -24,12 +27,22 @@ export class TemplateService {
     formData.append('file', file, file.name);
     const reqParam = {
       url: 'upload',
-      headers:{
-        "Authorization":localStorage.getItem("token")
-      },
+      // headers:{
+      //   "Authorization":localStorage.getItem("token")
+      // },
       data: formData
     }
 
+    return this.dataService.post(reqParam);
+  }
+
+  surveyCreation(file_path:any){
+    const reqParam = {
+      url: 'survey/create',
+      data: {
+        file:file_path
+      }
+    }
     return this.dataService.post(reqParam);
   }
 
@@ -38,9 +51,9 @@ export class TemplateService {
     let templatePath = "/opt/backend/template-validation-portal-service/apiServices/src/main/tmp/Program_Template_latest_Final_--_30_12_2021_(6)1671623565-011165.xlsx"
     const reqParam = {
       url: 'errDownload',
-      headers:{
-        "Authorization":localStorage.getItem("token")
-      }
+      // headers:{
+      //   "Authorization":localStorage.getItem("token")
+      // }
     }
     let queryParams = new HttpParams();
     queryParams = queryParams.append("templatePath",templatePath);
@@ -60,9 +73,9 @@ export class TemplateService {
    
     const reqParam = {
       url: 'validate',
-      headers:{
-        "Authorization":localStorage.getItem("token")
-      },
+      // headers:{
+      //   "Authorization":localStorage.getItem("token")
+      // },
       data: {
         request: {
           "templatePath": templatePath,
@@ -72,5 +85,12 @@ export class TemplateService {
     }
     return this.dataService.post(reqParam);
 
+    }
+    getSurveySolutions(): Observable<any> {
+      const reqParam = {
+        url: 'survey/getSolutions'
+      };
+      return this.dataService.post(reqParam);
+    }
   }
-}
+
