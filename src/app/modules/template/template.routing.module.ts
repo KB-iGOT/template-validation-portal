@@ -4,7 +4,7 @@ import { TemplateReportComponent } from './template-report/template-report.compo
 import { TemplateSelectionComponent } from './template-selection/template-selection.component';
 import { TemplateSuccessComponent } from './template-success/template-success.component';
 import { ValidationResultComponent } from './validation-result/validation-result.component';
-
+import { TemplateSolutionListComponent } from './template-solution-list/template-solution-list.component'; // Updated import
 
 const routes: Routes = [
   {
@@ -14,13 +14,16 @@ const routes: Routes = [
     path: 'validation-result', component: ValidationResultComponent
   },
   {
-    path: 'template-success/:solutionId', component:TemplateSuccessComponent 
+    path: 'template-success/:solutionId', component: TemplateSuccessComponent
   },
   {
-    path: 'template-report', component:TemplateReportComponent
+    path: 'template-solution-list', component: TemplateSolutionListComponent } // Updated route
+  ,
+  {
+    path: 'template-report', component: TemplateReportComponent
   },
   {
-    path:'',redirectTo:'template-selection',pathMatch:'full'
+    path: '', redirectTo: 'template-selection', pathMatch: 'full'
   }
 ];
 

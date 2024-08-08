@@ -122,6 +122,17 @@
   margin-top: 18px; /* Shift down */
 }
 
+.soluction-button {
+  background-color: rgb(0, 116, 182, 1) !important;
+  color: white;
+  width: 25%;
+  height: 50px; /* Height adjusted */
+  line-height: 40px; /* Center the text vertically */
+  text-align: center;
+  margin-left: 15px; /* Shift to the left */
+  margin-top: 18px; /* Shift down */ 
+}
+
 .download-button-small {
   flex:1;
   background-color: rgb(0, 116, 182, 1) !important;
