@@ -54,9 +54,9 @@ export class TemplateService {
     formData.append('file', file, file.name);
     const reqParam = {
       url: 'upload',
-      headers:{
-        "Authorization":localStorage.getItem("token")
-      },
+      // headers:{
+      //   "Authorization":localStorage.getItem("token")
+      // },
       data: formData
     }
 
@@ -78,9 +78,9 @@ export class TemplateService {
     let templatePath = "/opt/backend/template-validation-portal-service/apiServices/src/main/tmp/Program_Template_latest_Final_--_30_12_2021_(6)1671623565-011165.xlsx"
     const reqParam = {
       url: 'errDownload',
-      headers:{
-        "Authorization":localStorage.getItem("token")
-      }
+      // headers:{
+      //   "Authorization":localStorage.getItem("token")
+      // }
     }
     let queryParams = new HttpParams();
     queryParams = queryParams.append("templatePath",templatePath);
@@ -100,9 +100,9 @@ export class TemplateService {
    
     const reqParam = {
       url: 'validate',
-      headers:{
-        "Authorization":localStorage.getItem("token")
-      },
+      // headers:{
+      //   "Authorization":localStorage.getItem("token")
+      // },
       data: {
         request: {
           "templatePath": templatePath,
@@ -122,11 +122,21 @@ export class TemplateService {
       };
       return this.dataService.post(reqParam);
     }
+    downloadSurveySolutions(resourceType: string): Observable<any> {
+      const reqParam = {
+        url: 'survey/downloadSolutions',
+        data: {
+          resourceType: resourceType
+        }
+      };
+      return this.dataService.post(reqParam);
+    }
+
      // Method to generate the link for a solution ID
   getSolutionLink(solutionId: string): string {
     const baseUrl = this.getEnvironmentUrl(); // Fetch the base URL from the environment
     console.log(environment.currentEnvironment,"this is line 259")
-    return `${baseUrl}/surveyml/${solutionId}`;
+    return `${baseUrl}surveyml/${solutionId}`;
   }
 }
     

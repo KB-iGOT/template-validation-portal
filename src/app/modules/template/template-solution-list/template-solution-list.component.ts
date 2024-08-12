@@ -67,7 +67,7 @@ export class TemplateSolutionListComponent implements AfterViewInit, OnInit {
 
   copyLink(solutionId: string) {
     const environmentUrl = this.templateService.getEnvironmentUrl(); // Fetch the base URL from the service
-    const link = `${environmentUrl}/surveyml/${solutionId}`; // Corrected template literal
+    const link = `${environmentUrl}surveyml/${solutionId}`; // Corrected template literal
     navigator.clipboard.writeText(link).then(
       () => this.toastr.success('Link copied to clipboard!'),
       (err) => this.toastr.error('Failed to copy link')

@@ -184,34 +184,36 @@ export class TemplateSelectionComponent implements OnInit {
   }
 
   downloadSurveySolutions(file: any) {
-    console.log(file,"file2")
+    console.log(file, "file2");
     if (file && file.name) {
-      this.loader = true;
-      this.templateService.getSurveySolutions(file.name).subscribe(
-        (response: any) => {
-          if (response && response.csvPath) {
-            const csvPath = response.csvPath;
-            const link = document.createElement('a');
-            link.href = csvPath;
-            link.download = `${file.name}_solutions.csv`;
-            link.click();
-            this.toaster.success('Downloaded successfully');
-            this.selectedFile = "";
-            // Removed navigation code
-          } else {
-            console.error('Invalid response or missing csvPath. Full response:', response);
-          }
-          this.loader = false;
-        },
-        (error: any) => {
-          console.error('Error fetching survey solutions:', error);
-          this.loader = false;
-        }
-      );
+        this.loader = true;
+        this.templateService.downloadSurveySolutions(file.name).subscribe(
+            (response: any) => {
+                if (response.csvFilePath) {
+                    console.log(response,"line 192")
+                    console.log("line 193");
+                    const csvPath = response.csvFilePath;
+                    const link = document.createElement('a');
+                    link.href = csvPath;
+                    console.log(csvPath,"Csv path")
+                    link.download = `${file.name}_solutions.csv`;
+                    link.click();
+                    this.toaster.success('Downloaded successfully');
+                    this.selectedFile = "";
+                } else {
+                    console.error('Invalid response or missing csvPath. Full response:', response);
+                }
+                this.loader = false;
+            },
+            (error: any) => {
+                console.error('Error fetching survey solutions:', error);
+                this.loader = false;
+            }
+        );
     } else {
-      alert("Please select a file to download");
+        alert("Please select a file to download");
     }
-  }
+}
 
   viewSurveySolutions(file: any) {
     console.log(file,"file")
@@ -220,6 +222,7 @@ export class TemplateSelectionComponent implements OnInit {
       this.templateService.getSurveySolutions(file.name).subscribe(
         (response: any) => {
           if (response) {
+            console.log(response,"response here")
             this.router.navigate(['/template/template-solution-list'], {
             }).then(() => {
               console.log('Navigation successful');
