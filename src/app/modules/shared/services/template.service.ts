@@ -2,15 +2,42 @@ import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { DataService } from '../data/data.service';
 import { Observable } from 'rxjs';
+import { environment } from '../../../../../src/environments/environment';
+
+
 @Injectable({
   providedIn: 'root'
 })
 export class TemplateService {
-  [x: string]: any;
-  templateFile:any;
-  templateError:any;
-  userSelectedFile:any;
+  private environmentUrls = {
+    qa: 'https://portal.karmayogiqa.nic.in/',
+    dev: 'https://portal.dev.karmayogibharat.net/',
+    bm: 'https://portal.karmayogibm.nic.in/',
+    prod: 'https://igotkarmayogi.gov.in/'
+  };
+  
+  
+  private currentEnvironment: 'qa' | 'dev' | 'bm' | 'prod' = environment.currentEnvironment as 'qa' | 'dev' | 'bm' | 'prod';
+  templateFile: any;
+  templateError: any;
+  userSelectedFile: any;
   constructor(private dataService: DataService) { }
+
+  // Method to set the current environment
+  setEnvironment(env: 'qa' | 'dev' | 'bm' | 'prod') {
+    if (this.environmentUrls[env]) {
+      this.currentEnvironment = env;
+     
+    } else {
+      console.warn(`Environment "${env}" is not recognized.`);
+    }
+  }
+
+  // Method to get the URL for the current environment
+  getEnvironmentUrl(): string {
+    console.log(typeof(environment.currentEnvironment),typeof("bm"),"thid idd s s")
+    return this.environmentUrls[this.currentEnvironment];
+  }
 
   selectTemplates() {
     const reqParam = {
@@ -86,11 +113,32 @@ export class TemplateService {
     return this.dataService.post(reqParam);
 
     }
-    getSurveySolutions(): Observable<any> {
+    getSurveySolutions(resourceType: string): Observable<any> {
       const reqParam = {
-        url: 'survey/getSolutions'
+        url: 'survey/getSolutions',
+        data: {
+          resourceType: resourceType
+        }
       };
       return this.dataService.post(reqParam);
     }
+    downloadSurveySolutions(resourceType: string): Observable<any> {
+      const reqParam = {
+        url: 'survey/downloadSolutions',
+        data: {
+          resourceType: resourceType
+        }
+      };
+      return this.dataService.post(reqParam);
+    }
+
+     // Method to generate the link for a solution ID
+  getSolutionLink(solutionId: string): string {
+    const baseUrl = this.getEnvironmentUrl(); // Fetch the base URL from the environment
+    console.log(environment.currentEnvironment,"this is line 259")
+    return `${baseUrl}surveyml/${solutionId}`;
   }
+}
+    
+  
 
