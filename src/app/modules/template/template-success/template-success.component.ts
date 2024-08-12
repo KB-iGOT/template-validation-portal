@@ -34,7 +34,6 @@ export class TemplateSuccessComponent implements OnInit {
     // Subscribe to query parameters
     this.route.queryParams.subscribe(params => {
       this.solutionUrl = params['downloadbleUrl'];
-      console.log(this.solutionUrl, "Click me");
   
       // Check if the user is logged in
       this.isUserLogin = this.authService.isUserLoggedIn();
@@ -57,7 +56,6 @@ export class TemplateSuccessComponent implements OnInit {
         this.isCopied = false;
       }, 2000); // Hide the "Copied!" message after 2 seconds
     }).catch(err => {
-      console.error('Failed to copy text: ', err);
     });
   }
 

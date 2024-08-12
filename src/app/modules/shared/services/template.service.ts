@@ -4,30 +4,25 @@ import { DataService } from '../data/data.service';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../../src/environments/environment';
 
-
 @Injectable({
   providedIn: 'root'
 })
 export class TemplateService {
-  private environmentUrls = {
-    qa: 'https://portal.karmayogiqa.nic.in/',
-    dev: 'https://portal.dev.karmayogibharat.net/',
-    bm: 'https://portal.karmayogibm.nic.in/',
-    prod: 'https://igotkarmayogi.gov.in/'
-  };
-  
-  
-  private currentEnvironment: 'qa' | 'dev' | 'bm' | 'prod' = environment.currentEnvironment as 'qa' | 'dev' | 'bm' | 'prod';
+  private environmentUrls = (window as any)["env"]?.baseUrls || {};
+  private defaultBaseUrl = (window as any)["env"]?.baseUrl || '';
+
+  private currentEnvironment: 'qa' | 'dev' | 'bm' | 'prod' = (window as any)["env"]?.currentEnvironment as 'qa' | 'dev' | 'bm' | 'prod';
+
   templateFile: any;
   templateError: any;
   userSelectedFile: any;
+
   constructor(private dataService: DataService) { }
 
   // Method to set the current environment
   setEnvironment(env: 'qa' | 'dev' | 'bm' | 'prod') {
     if (this.environmentUrls[env]) {
       this.currentEnvironment = env;
-     
     } else {
       console.warn(`Environment "${env}" is not recognized.`);
     }
@@ -35,18 +30,15 @@ export class TemplateService {
 
   // Method to get the URL for the current environment
   getEnvironmentUrl(): string {
-    console.log(typeof(environment.currentEnvironment),typeof("bm"),"thid idd s s")
-    return this.environmentUrls[this.currentEnvironment];
+    return this.environmentUrls[this.currentEnvironment] || this.defaultBaseUrl;
   }
 
   selectTemplates() {
     const reqParam = {
       url: 'download/sampleTemplate',
-
     }
     return this.dataService.get(reqParam);
   }
-  
 
   uploadTemplates(file: any) {
 
@@ -63,12 +55,10 @@ export class TemplateService {
     return this.dataService.post(reqParam);
   }
 
-  surveyCreation(file_path:any){
+  surveyCreation(file_path: any) {
     const reqParam = {
       url: 'survey/create',
-      data: {
-        file:file_path
-      }
+      data: { file: file_path }
     }
     return this.dataService.post(reqParam);
   }
@@ -87,7 +77,6 @@ export class TemplateService {
     return this.dataService.get(reqParam,queryParams);
 
   }
-
 
   validateTemplates(templatePath: any, userUploadedFileType: any, templateLinks:any) {
     let templateCode
@@ -113,32 +102,26 @@ export class TemplateService {
     return this.dataService.post(reqParam);
 
     }
-    getSurveySolutions(resourceType: string): Observable<any> {
-      const reqParam = {
-        url: 'survey/getSolutions',
-        data: {
-          resourceType: resourceType
-        }
-      };
-      return this.dataService.post(reqParam);
-    }
-    downloadSurveySolutions(resourceType: string): Observable<any> {
-      const reqParam = {
-        url: 'survey/downloadSolutions',
-        data: {
-          resourceType: resourceType
-        }
-      };
-      return this.dataService.post(reqParam);
-    }
 
-     // Method to generate the link for a solution ID
+  getSurveySolutions(resourceType: string): Observable<any> {
+    const reqParam = {
+      url: 'survey/getSolutions',
+      data: { resourceType: resourceType }
+    };
+    return this.dataService.post(reqParam);
+  }
+
+  downloadSurveySolutions(resourceType: string): Observable<any> {
+    const reqParam = {
+      url: 'survey/downloadSolutions',
+      data: { resourceType: resourceType }
+    };
+    return this.dataService.post(reqParam);
+  }
+
+  // Method to generate the link for a solution ID
   getSolutionLink(solutionId: string): string {
     const baseUrl = this.getEnvironmentUrl(); // Fetch the base URL from the environment
-    console.log(environment.currentEnvironment,"this is line 259")
     return `${baseUrl}surveyml/${solutionId}`;
   }
 }
-    
-  
-

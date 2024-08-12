@@ -41,8 +41,9 @@
                                 </mat-option>
                             </mat-select>
                         </mat-form-field>
-                        <button (click)="downloadSurveySolutions(this.selectedFile)" mat-raised-button class="soluction-button">Download</button>
-                        <button (click)="viewSurveySolutions(this.selectedFile)" mat-raised-button class="soluction-button">View</button>
+                        <button (click)="handleSurveySolutions('download', selectedFile)" mat-raised-button class="soluction-button">Download</button>
+                        <button (click)="handleSurveySolutions('view', selectedFile)" mat-raised-button class="soluction-button">View</button>
+
                     </div>
                 </div>
             </mat-card-content>

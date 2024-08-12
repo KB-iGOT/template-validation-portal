@@ -3,6 +3,7 @@ import { TemplateService } from '../../shared/services/template.service';
 import { Router } from '@angular/router';
 import { AuthenticationService } from '../../shared/services/authentication.service';
 import { ToastrService } from 'ngx-toastr';
+import { Observable } from 'rxjs'; // Ensure this import is included
 
 @Component({
   selector: 'app-template-selection',
@@ -158,22 +159,12 @@ export class TemplateSelectionComponent implements OnInit {
     }
   }
 
-  // fileUpload(fileInput: any, uploadTemplate: any) {
-  //   this.userUploadedFileType = uploadTemplate;
-  //   console.log(fileInput,uploadTemplate,"hsis osiosis")
-  //   if (fileInput && fileInput.files.length > 0) {
-  //     this.userSelectedFile = fileInput.files[0];
-  //     this.fileName = fileInput.files[0].name;
-  //   } else {
-  //     console.error('No file selected');
-  //     this.toaster.error('No file selected'); // Display error message to user
-  //   }
-  // }
   fileUpload(fileInput: HTMLInputElement, userUploadedFile: any) {
     this.fileName = '';
     fileInput.click();
     this.userUploadedFileType = userUploadedFile;
   }
+
   onChange(event: any) {
     this.templateService.templateFile = event.target;
     this.userSelectedFile = event.target.files[0];
@@ -183,65 +174,49 @@ export class TemplateSelectionComponent implements OnInit {
     this.fileName = event.target.files[0].name;
   }
 
-  downloadSurveySolutions(file: any) {
-    console.log(file, "file2");
-    if (file && file.name) {
-        this.loader = true;
-        this.templateService.downloadSurveySolutions(file.name).subscribe(
-            (response: any) => {
-                if (response.csvFilePath) {
-                    console.log(response,"line 192")
-                    console.log("line 193");
-                    const csvPath = response.csvFilePath;
-                    const link = document.createElement('a');
-                    link.href = csvPath;
-                    console.log(csvPath,"Csv path")
-                    link.download = `${file.name}_solutions.csv`;
-                    link.click();
-                    this.toaster.success('Downloaded successfully');
-                    this.selectedFile = "";
-                } else {
-                    console.error('Invalid response or missing csvPath. Full response:', response);
-                }
-                this.loader = false;
-            },
-            (error: any) => {
-                console.error('Error fetching survey solutions:', error);
-                this.loader = false;
-            }
-        );
-    } else {
-        alert("Please select a file to download");
-    }
-}
-
-  viewSurveySolutions(file: any) {
-    console.log(file,"file")
+  handleSurveySolutions(action: 'download' | 'view', file: any) {
     if (file && file.name) {
       this.loader = true;
-      this.templateService.getSurveySolutions(file.name).subscribe(
+      let observable$: Observable<any>;
+
+      if (action === 'download') {
+        observable$ = this.templateService.downloadSurveySolutions(file.name);
+      } else {
+        observable$ = this.templateService.getSurveySolutions(file.name);
+      }
+
+      observable$.subscribe(
         (response: any) => {
-          if (response) {
-            console.log(response,"response here")
-            this.router.navigate(['/template/template-solution-list'], {
-            }).then(() => {
-              console.log('Navigation successful');
-            }).catch(err => {
-              console.error('Navigation error:', err);
-            });
-            
+          if (action === 'download') {
+            if (response.csvFilePath) {
+              const csvPath = response.csvFilePath;
+              const link = document.createElement('a');
+              link.href = csvPath;
+              link.download = `${file.name}_solutions.csv`;
+              link.click();
+              this.toaster.success('Downloaded successfully');
+              this.selectedFile = "";
+            } else {
+              console.error('Invalid response or missing csvPath. Full response:', response);
+            }
           } else {
-            console.error('Invalid response or missing csvPath. Full response:', response);
+            if (response) {
+              this.router.navigate(['/template/template-solution-list']).catch(err => {
+                console.error('Navigation error:', err);
+              });
+            } else {
+              console.error('Invalid response or missing csvPath. Full response:', response);
+            }
           }
           this.loader = false;
         },
         (error: any) => {
-          console.error('Error fetching survey solutions:', error);
+          console.error(`Error ${action === 'download' ? 'fetching' : 'viewing'} survey solutions:`, error);
           this.loader = false;
         }
       );
     } else {
-      alert("Please select a file to view");
+      alert(`Please select a file to ${action}`);
     }
   }
 }
