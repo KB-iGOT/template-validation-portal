@@ -3,7 +3,7 @@ import { TemplateService } from '../../shared/services/template.service';
 import { Router } from '@angular/router';
 import { AuthenticationService } from '../../shared/services/authentication.service';
 import { ToastrService } from 'ngx-toastr';
-import { Observable } from 'rxjs'; // Ensure this import is included
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-template-selection',
