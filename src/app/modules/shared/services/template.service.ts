@@ -4,52 +4,20 @@ import { DataService } from '../data/data.service';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../../src/environments/environment';
 
-interface EnvironmentConfig {
-  customAuth?: boolean;
-  baseUrl?: string;
-  qa?: string;
-  dev?: string;
-  bm?: string;
-  prod?: string;
-}
-
 @Injectable({
   providedIn: 'root'
 })
 export class TemplateService {
-  private environmentUrls: EnvironmentConfig = {};
-  private currentEnvironment!: 'qa' | 'dev' | 'bm' | 'prod';
+  private baseUrl: string = environment.baseurl;
 
   templateFile: any;
   templateError: any;
   userSelectedFile: any;
 
-  constructor(private dataService: DataService) {
-    // Load environment configuration from window.env and environment.ts
-    this.loadEnvironmentConfig();
-  }
+  constructor(private dataService: DataService) {}
 
-  // Method to load environment configuration from window.env and environment.ts
-  private loadEnvironmentConfig() {
-    this.environmentUrls = (window as any).env || {};
-
-    // Retrieve the current environment from environment.ts
-    const envKey = environment.currentEnvironment as 'qa' | 'dev' | 'bm' | 'prod';
-    this.currentEnvironment = this.environmentUrls[envKey] ? envKey : 'prod';
-  }
-
-  // Method to set the current environment
-  setEnvironment(env: 'qa' | 'dev' | 'bm' | 'prod') {
-    if (this.environmentUrls[env]) {
-      this.currentEnvironment = env;
-    } else {
-      console.warn(`Environment "${env}" is not recognized.`);
-    }
-  }
-
-  // Method to get the URL for the current environment
   getEnvironmentUrl(): string {
-    return this.environmentUrls[this.currentEnvironment] || '';
+    return this.baseUrl;
   }
 
   selectTemplates() {
@@ -69,7 +37,6 @@ export class TemplateService {
       // },
       data: formData
     };
-
     return this.dataService.post(reqParam);
   }
 
@@ -127,9 +94,8 @@ export class TemplateService {
     });
   }
 
-  // Method to generate the link for a solution ID
   getSolutionLink(solutionId: string): string {
-    const baseUrl = this.getEnvironmentUrl(); // Fetch the base URL from the environment
+    const baseUrl = this.getEnvironmentUrl();
     return `${baseUrl}surveyml/${solutionId}`;
   }
 }
