@@ -14,6 +14,7 @@ import { ToastrService } from 'ngx-toastr';
 export class TemplateSolutionListComponent implements AfterViewInit, OnInit {
   displayedColumns: string[] = ['solutionId', 'solutionName', 'startDate', 'endDate', 'action'];
   dataSource = new MatTableDataSource<any>();
+  resourceType: string = ""
 
   @ViewChild(MatPaginator) paginator: MatPaginator | undefined;
 
@@ -29,8 +30,8 @@ export class TemplateSolutionListComponent implements AfterViewInit, OnInit {
   }
 
   fetchSolutions() {
-    this.templateService.getSurveySolutions('YourResourceTypeHere').subscribe(
-      (response) => {
+    this.templateService.getSurveySolutions(this.resourceType, 'getSolutions').subscribe(
+      (response: any) => {
         if (response.status === 200 && response.code === "Success") {
           this.dataSource.data = response.SolutionList.map((item: any) => ({
             solutionId: item.SOLUTION_ID,
@@ -42,7 +43,7 @@ export class TemplateSolutionListComponent implements AfterViewInit, OnInit {
           this.toastr.error('Failed to load solutions');
         }
       },
-      (error) => {
+      (error: any) => {
         console.error('Error fetching solutions:', error);
         this.toastr.error('An error occurred while fetching solutions');
       }
@@ -58,7 +59,6 @@ export class TemplateSolutionListComponent implements AfterViewInit, OnInit {
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
     this.dataSource.filterPredicate = (data: any, filter: string) => {
-      // Perform the custom filtering by solutionId and solutionName
       return data.solutionId.toLowerCase().includes(filter) ||
              data.solutionName.toLowerCase().includes(filter);
     };

@@ -178,13 +178,14 @@ export class TemplateSelectionComponent implements OnInit {
     if (file && file.name) {
       this.loader = true;
       let observable$: Observable<any>;
-
+  
+      // Determine which service method to call based on the action
       if (action === 'download') {
-        observable$ = this.templateService.downloadSurveySolutions(file.name);
+        observable$ = this.templateService.getSurveySolutions(file.name, 'downloadSolutions');
       } else {
-        observable$ = this.templateService.getSurveySolutions(file.name);
+        observable$ = this.templateService.getSurveySolutions(file.name, 'getSolutions');
       }
-
+  
       observable$.subscribe(
         (response: any) => {
           if (action === 'download') {
@@ -197,7 +198,7 @@ export class TemplateSelectionComponent implements OnInit {
               this.toaster.success('Downloaded successfully');
               this.selectedFile = "";
             } else {
-              console.error('Invalid response or missing csvPath. Full response:', response);
+              console.error('Invalid response or missing csvFilePath. Full response:', response);
             }
           } else {
             if (response) {
@@ -205,7 +206,7 @@ export class TemplateSelectionComponent implements OnInit {
                 console.error('Navigation error:', err);
               });
             } else {
-              console.error('Invalid response or missing csvPath. Full response:', response);
+              console.error('Invalid response or missing csvFilePath. Full response:', response);
             }
           }
           this.loader = false;
@@ -219,4 +220,5 @@ export class TemplateSelectionComponent implements OnInit {
       alert(`Please select a file to ${action}`);
     }
   }
+  
 }
