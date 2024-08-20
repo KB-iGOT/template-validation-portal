@@ -88,7 +88,6 @@ export class ValidationResultComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
     });
   }
 
@@ -243,17 +242,10 @@ export class ValidationResultComponent implements OnInit {
 
  noErrorsInAllSheets(): boolean {
   return this.sheetarr.every((sheetName: string) => {
-    console.log(this.validateresult,"dbhujsbfhsjufbnbgijngijdr")
-    console.log(!(this.errorsCountPerSheet[sheetName] === 0) || !(this.validateresult))
-
     return !(this.errorsCountPerSheet[sheetName] === 0) || !(this.validateresult) 
   });
 }
 
-// noErrorsInAllSheets(): boolean {
-//   console.log(this.validateresult)
-//   return this.validateresult
-// }
 
   goBack(): void {
     this._location.back();
@@ -271,19 +263,11 @@ export class ValidationResultComponent implements OnInit {
     this.validateresult = this.errors.advancedErrors.data.some((item: any) => item.sheetName);
     this.validateresult = this.errors.basicErrors.data.some((item: any) => item.sheetName);
     if (this.errors.advancedErrors.data.length > 0||this.errors.basicErrors.data.length >0){
-      console.log("Entering")
       this.validateresult=true
 
     }
-    console.log(this.errors.basicErrors.data,"Basic errors")
     // Update the error lists based on the selected sheet
-
-
     this.advancedErrorList = this.errors.advancedErrors.data.filter((item: any) => item.sheetName === this.selectedSheet);
-    console.log(this.selectedSheet,"selected sheet")
-    console.log(this.errors.advancedErrors.data,"errors.data")
-    console.log(this.advancedErrorList,"advanced errors")
-    console.log(this.validateresult,"validateresult")
     this.basicErrorsList = this.errors.basicErrors.data.filter((item: any) => item.sheetName === this.selectedSheet);
     this.rowErrorsList = [...this.basicErrorsList.filter((element: any) => element.columnName.length === 0), ...this.advancedErrorList.filter((element: any) => element.columnName.length === 0)];
 

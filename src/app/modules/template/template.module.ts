@@ -12,13 +12,15 @@ import { SharedModule } from '../shared/shared.module';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatIconModule} from '@angular/material/icon'
 import { MatDividerModule } from '@angular/material/divider';
+import { TemplateSolutionListComponent } from './template-solution-list/template-solution-list.component';
 
 @NgModule({
   declarations: [
     TemplateSelectionComponent,
     ValidationResultComponent,
     TemplateSuccessComponent,
-    TemplateReportComponent
+    TemplateReportComponent,
+    TemplateSolutionListComponent // Add declaration
   ],
   imports: [
     CommonModule,

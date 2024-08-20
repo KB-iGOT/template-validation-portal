@@ -3,6 +3,7 @@ import { TemplateService } from '../../shared/services/template.service';
 import { Router } from '@angular/router';
 import { AuthenticationService } from '../../shared/services/authentication.service';
 import { ToastrService } from 'ngx-toastr';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-template-selection',
@@ -14,18 +15,17 @@ export class TemplateSelectionComponent implements OnInit {
   selectedFile: any;
   fileInput: any;
   fileName = '';
-  wbfile: any;
-  loader: any = false;
+  loader: boolean = false;
   userSelectedFile: any;
   userUploadedFileType: any;
   templateLinks: any;
   public downloadTemplates: any = [];
   uploadTemplates: any = [];
-  isUserLogin: any = false;
+  isUserLogin: boolean = false;
   public sortableElement: string = 'Uploads';
-  solutiondetails:any = ""
-  downloadbleUrl:any = ""
-  customAuth:any=window["env" as any]["customAuth" as any]
+  solutiondetails: any = "";
+  downloadbleUrl: any = "";
+  customAuth: any = window["env" as any]["customAuth" as any];
 
   constructor(
     private templateService: TemplateService,
@@ -59,7 +59,7 @@ export class TemplateSelectionComponent implements OnInit {
     );
     this.isUserLogin = this.authService.isUserLoggedIn();
   }
-
+  
   onCickSelectedSurveyTemplate(selectedTemplate: any) {
     this.selectFile = selectedTemplate;
   }
@@ -73,16 +73,16 @@ export class TemplateSelectionComponent implements OnInit {
   }
 
   templateDownload() {
-    if (this.selectFile){
-    const url = this.selectFile.templateLink;
-    let capturedId = url.match(/\/d\/(.+)\//);
-    window.open(`https://docs.google.com/spreadsheets/d/${capturedId[1]}/export?format=xlsx`);
-    this.toaster.success('Downloaded successfully');
-    this.selectFile = ""
-  }else{
-    alert("Please select a file to download")
+    if (this.selectFile) {
+      const url = this.selectFile.templateLink;
+      let capturedId = url.match(/\/d\/(.+)\//);
+      window.open(`https://docs.google.com/spreadsheets/d/${capturedId[1]}/export?format=xlsx`);
+      this.toaster.success('Downloaded successfully');
+      this.selectFile = "";
+    } else {
+      alert("Please select a file to download");
+    }
   }
-}
 
   validateTemplate() {
     this.loader = true;
@@ -94,13 +94,10 @@ export class TemplateSelectionComponent implements OnInit {
             this.loader = false;
             this.templateService.templateError = data.result;
             this.router.navigate(['/template/validation-result']);
-
           },
-          
           (error: any) => {
             this.loader = false;
-
-
+            this.toaster.error('Error validating template'); // Display error message to user
           }
         );
       });
@@ -121,27 +118,19 @@ export class TemplateSelectionComponent implements OnInit {
             (data) => {
               this.templateService.userSelectedFile = event.result.templatePath;
               this.loader = false;
-              console.log(data.result,"Line 101")
-  
               if (data.result.advancedErrors.data.length == 0 && data.result.basicErrors.data.length == 0) {
-                console.log("Entering")
                 this.templateService.surveyCreation(this.templateService.userSelectedFile).subscribe(
                   (surveyEvent: any) => {
-                    this.solutiondetails = surveyEvent.result[0]
-                    console.log(this.solutiondetails.solutionId, "this.solutiondetails.solutionId 111")
+                    this.solutiondetails = surveyEvent.result[0];
                     this.router.navigate(['/template/template-success', this.solutiondetails.solutionId], {
-                  queryParams: {
-                    downloadbleUrl: this.solutiondetails.downloadbleUrl
-                  }
-                    });// Navigate to success page
+                      queryParams: {
+                        downloadbleUrl: this.solutiondetails.downloadbleUrl
+                      }
+                    }); // Navigate to success page
                   },
-                  
                   (surveyError: any) => {
                     console.error('Error creating survey:', surveyError);
-                    // this.toaster.error('Error creating survey(Validate the Survey template before creating)'); // Display error message to user
-                    // this.router.navigate(['/template/validation-result']);
-                    this.validateTemplate()
-
+                    this.validateTemplate();
                   }
                 );
               } else {
@@ -170,66 +159,66 @@ export class TemplateSelectionComponent implements OnInit {
     }
   }
 
-  downloadSurveySolutions(file:any) {
-    console.log(file.name)
-    if (file.name==="Survey"){
-    this.loader = true;
-    this.templateService.getSurveySolutions().subscribe(
-      (response: any) => {
-        console.log(response)
-        if (response && response.csvPath) {
-          const csvPath = response.csvPath;
-          const link = document.createElement('a');
-          link.href = csvPath;
-          link.download = 'survey_solutions.csv';
-          link.click();
-          this.toaster.success('Downloaded successfully');
-          this.selectedFile=""
-          // alert("Downloaded successfully")
-        } else {
-          console.error('Invalid response or missing csvPath.');
-          // Handle error or show notification
-        }
-        this.loader = false;
-      },
-      (error: any) => {
-        console.error('Error fetching survey solutions:', error);
-        this.loader = false;
-        // Handle error or show notification
-      }
-    );
-  } else{
-    alert("Please select a file to download")
-  }
-  }
-
-
-  
-  
-
-  onChange(event: any) {
-    this.templateService.templateFile = event.target;
-    this.userSelectedFile = event.target.files[0];
-  }
-
   fileUpload(fileInput: HTMLInputElement, userUploadedFile: any) {
     this.fileName = '';
     fileInput.click();
     this.userUploadedFileType = userUploadedFile;
   }
 
-  onLogout() {
-    this.authService.logoutAccount();
-    this.router.navigate(['/auth/login']);
+  onChange(event: any) {
+    this.templateService.templateFile = event.target;
+    this.userSelectedFile = event.target.files[0];
   }
 
   getFileDetails(event: any) {
-    if (event.target.files[0].type == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') {
-      for (var i = 0; i < event.target.files.length; i++) {
-        this.fileName = event.target.files[i].name;
+    this.fileName = event.target.files[0].name;
+  }
+
+  handleSurveySolutions(action: 'download' | 'view', file: any) {
+    if (file && file.name) {
+      this.loader = true;
+      let observable$: Observable<any>;
+  
+      // Determine which service method to call based on the action
+      if (action === 'download') {
+        observable$ = this.templateService.getSurveySolutions(file.name, 'downloadSolutions');
+      } else {
+        observable$ = this.templateService.getSurveySolutions(file.name, 'getSolutions');
       }
+  
+      observable$.subscribe(
+        (response: any) => {
+          if (action === 'download') {
+            if (response.csvFilePath) {
+              const csvPath = response.csvFilePath;
+              const link = document.createElement('a');
+              link.href = csvPath;
+              link.download = `${file.name}_solutions.csv`;
+              link.click();
+              this.toaster.success('Downloaded successfully');
+              this.selectedFile = "";
+            } else {
+              console.error('Invalid response or missing csvFilePath. Full response:', response);
+            }
+          } else {
+            if (response) {
+              this.router.navigate(['/template/template-solution-list']).catch(err => {
+                console.error('Navigation error:', err);
+              });
+            } else {
+              console.error('Invalid response or missing csvFilePath. Full response:', response);
+            }
+          }
+          this.loader = false;
+        },
+        (error: any) => {
+          console.error(`Error ${action === 'download' ? 'fetching' : 'viewing'} survey solutions:`, error);
+          this.loader = false;
+        }
+      );
     } else {
-      this.toaster.error('Please upload valid file format', 'Validation');
+      alert(`Please select a file to ${action}`);
     }
   }
+  
 }
