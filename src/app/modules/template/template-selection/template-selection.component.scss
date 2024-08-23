@@ -223,6 +223,15 @@
     flex-direction: column;
   }
 }
+@media screen and (min-width: 1001px) and (max-width: 1250px) {
+  .tempplate-download-card,
+  .tempplate-upload-card {
+    padding: 1rem;
+    margin: 15% 5% 15% 5%;
+    border-radius: 0.5rem;
+  }
+}
+
 
 .portal-header h2 {
   margin: 0;
