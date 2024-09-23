@@ -28,7 +28,6 @@ export class DataService {
   get(requestParam: any, params?:HttpParams): Observable<any> {
 
     
-    console.log(params,requestParam.headers)
     return this.http.get(this.baseUrl + requestParam.url).pipe(
       mergeMap((data: any) => {
         if (data?.status !== 200) {
