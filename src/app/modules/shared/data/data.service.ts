@@ -12,9 +12,8 @@ export class DataService {
 
   constructor(private http: HttpClient) {
   }
-
-  post(requestParam: any): Observable<any> {
   
+  post(requestParam: any): Observable<any> {
     return this.http.post(this.baseUrl + requestParam.url, requestParam.data,{
       headers:requestParam?.headers
     }).pipe(
@@ -27,8 +26,10 @@ export class DataService {
   }
 
   get(requestParam: any, params?:HttpParams): Observable<any> {
+
     
-    return this.http.get(this.baseUrl + requestParam.url,{params:params,headers:requestParam.headers}).pipe(
+    console.log(params,requestParam.headers)
+    return this.http.get(this.baseUrl + requestParam.url).pipe(
       mergeMap((data: any) => {
         if (data?.status !== 200) {
           
