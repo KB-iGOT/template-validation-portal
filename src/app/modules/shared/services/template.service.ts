@@ -2,13 +2,14 @@ import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { DataService } from '../data/data.service';
 import { Observable } from 'rxjs';
-import { environment } from '../../../../../src/environments/environment';
+// import { environment } from '../../../../../src/environments/environment';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TemplateService {
-  private baseUrl: string = environment.baseurl;
+  private baseUrl: string = (window['env' as any]['baseUrl' as any] as unknown as string);
 
   templateFile: any;
   templateError: any;
@@ -32,9 +33,9 @@ export class TemplateService {
     formData.append('file', file, file.name);
     const reqParam = {
       url: 'upload',
-      // headers: {
-      //   "Authorization": localStorage.getItem("token")
-      // },
+      headers: {
+        "Authorization": localStorage.getItem("token")
+      },
       data: formData
     };
     return this.dataService.post(reqParam);
@@ -44,8 +45,11 @@ export class TemplateService {
     const reqParam = {
       url: 'survey/create',
       data: {
-        file: file_path
-      }
+        file: file_path,
+      },
+      // headers: {
+      //   "Authorization": localStorage.getItem("token")
+      // }
     };
     return this.dataService.post(reqParam);
   }
@@ -90,6 +94,9 @@ export class TemplateService {
   getSurveySolutions(resourceType: string, extension: string): Observable<any> {
     return this.dataService.post({
       url: `survey/${extension}`,
+      // headers: {
+      //   "Authorization": localStorage.getItem("token")
+      // },
       data: { resourceType: resourceType }
     });
   }
