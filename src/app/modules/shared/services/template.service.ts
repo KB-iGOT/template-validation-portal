@@ -33,9 +33,9 @@ export class TemplateService {
     formData.append('file', file, file.name);
     const reqParam = {
       url: 'upload',
-      headers: {
-        "Authorization": localStorage.getItem("token")
-      },
+      // headers: {
+      //   "Authorization": localStorage.getItem("token")
+      // },
       data: formData
     };
     return this.dataService.post(reqParam);
