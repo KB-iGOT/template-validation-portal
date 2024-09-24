@@ -23,7 +23,7 @@ export class TemplateService {
 
   selectTemplates() {
     const reqParam = {
-      url: 'download/sampleTemplate',
+      url: 'template/api/v1/download/sampleTemplate',
     };
     return this.dataService.get(reqParam);
   }
@@ -32,7 +32,7 @@ export class TemplateService {
     const formData = new FormData();
     formData.append('file', file, file.name);
     const reqParam = {
-      url: 'upload',
+      url: 'template/api/v1/upload',
       // headers: {
       //   "Authorization": localStorage.getItem("token")
       // },
@@ -43,7 +43,7 @@ export class TemplateService {
 
   surveyCreation(file_path: any) {
     const reqParam = {
-      url: 'survey/create',
+      url: 'template/api/v1/survey/create',
       data: {
         file: file_path,
       },
@@ -77,7 +77,7 @@ export class TemplateService {
     });
 
     const reqParam = {
-      url: 'validate',
+      url: 'template/api/v1/validate',
       // headers: {
       //   "Authorization": localStorage.getItem("token")
       // },
@@ -93,7 +93,7 @@ export class TemplateService {
 
   getSurveySolutions(resourceType: string, extension: string): Observable<any> {
     return this.dataService.post({
-      url: `survey/${extension}`,
+      url: `template/api/v1/survey/${extension}`,
       // headers: {
       //   "Authorization": localStorage.getItem("token")
       // },
