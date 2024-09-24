@@ -10,6 +10,7 @@ import { environment } from 'src/environments/environment';
 })
 export class TemplateService {
   private baseUrl: string = (window['env' as any]['baseUrl' as any] as unknown as string);
+  private apiBasePath: string = 'template/api/v1/'; // Global variable for API path
 
   templateFile: any;
   templateError: any;
@@ -23,7 +24,7 @@ export class TemplateService {
 
   selectTemplates() {
     const reqParam = {
-      url: 'download/sampleTemplate',
+      url: `${this.apiBasePath}download/sampleTemplate`,
     };
     return this.dataService.get(reqParam);
   }
@@ -32,7 +33,7 @@ export class TemplateService {
     const formData = new FormData();
     formData.append('file', file, file.name);
     const reqParam = {
-      url: 'upload',
+      url: `${this.apiBasePath}upload`,
       // headers: {
       //   "Authorization": localStorage.getItem("token")
       // },
@@ -43,7 +44,7 @@ export class TemplateService {
 
   surveyCreation(file_path: any) {
     const reqParam = {
-      url: 'survey/create',
+      url: `${this.apiBasePath}survey/create`,
       data: {
         file: file_path,
       },
@@ -77,7 +78,7 @@ export class TemplateService {
     });
 
     const reqParam = {
-      url: 'validate',
+      url: `${this.apiBasePath}validate`,
       // headers: {
       //   "Authorization": localStorage.getItem("token")
       // },
@@ -93,7 +94,7 @@ export class TemplateService {
 
   getSurveySolutions(resourceType: string, extension: string): Observable<any> {
     return this.dataService.post({
-      url: `survey/${extension}`,
+      url: `${this.apiBasePath}survey/${extension}`,
       // headers: {
       //   "Authorization": localStorage.getItem("token")
       // },
