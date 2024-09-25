@@ -2,14 +2,12 @@ import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { DataService } from '../data/data.service';
 import { Observable } from 'rxjs';
-// import { environment } from '../../../../../src/environments/environment';
-import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TemplateService {
-  private baseUrl: string = (window['env' as any]['baseUrl' as any] as unknown as string);
+  private baseUrl: any = window['env' as any]['baseUrl' as any];
   private apiBasePath: string = 'template/api/v1/'; // Global variable for API path
 
   templateFile: any;
@@ -23,9 +21,12 @@ export class TemplateService {
   }
 
   selectTemplates() {
+  console.log(this.apiBasePath, "Template service line no. 24: apiBasePath");
+  console.log(this.baseUrl, "Template service line no. 25: baseUrl");
     const reqParam = {
       url: `${this.apiBasePath}download/sampleTemplate`,
     };
+    console.log(reqParam, "Template service line no. 29: reqParam");
     return this.dataService.get(reqParam);
   }
 
