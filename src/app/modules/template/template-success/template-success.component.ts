@@ -4,6 +4,7 @@ import { TemplateService } from '../../shared/services/template.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService } from '../../shared/services/authentication.service';
 import { Observable, Subject } from 'rxjs';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-template-success',
@@ -22,7 +23,8 @@ export class TemplateSuccessComponent implements OnInit {
     private authService: AuthenticationService,
     private route: ActivatedRoute,
     private router: Router,
-    private templateService: TemplateService
+    private templateService: TemplateService,
+    private location: Location
   ) { }
 
   ngOnInit(): void {
@@ -58,6 +60,11 @@ export class TemplateSuccessComponent implements OnInit {
     }).catch(err => {
     });
   }
+
+  goBack() {
+    this.location.back();
+  }
+
 
   onLogout() {
     this.authService.logoutAccount();
