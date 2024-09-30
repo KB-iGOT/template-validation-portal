@@ -61,3 +61,7 @@ mat-paginator {
   background-color: #fafafa;
   border-top: 1px solid #e0e0e0;
 }
+.back-button {
+  color: rgb(0, 116, 182, 1);
+  /* font-weight: bold; */
+}

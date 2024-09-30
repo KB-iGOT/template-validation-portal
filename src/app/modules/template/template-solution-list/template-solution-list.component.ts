@@ -5,6 +5,7 @@ import { TemplateService } from '../../shared/services/template.service';
 import { Router } from '@angular/router';
 import { AuthenticationService } from '../../shared/services/authentication.service';
 import { ToastrService } from 'ngx-toastr';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'table-pagination-example',
@@ -12,7 +13,7 @@ import { ToastrService } from 'ngx-toastr';
   templateUrl: 'template-solution-list.component.html',
 })
 export class TemplateSolutionListComponent implements AfterViewInit, OnInit {
-  displayedColumns: string[] = ['solutionId', 'solutionName', 'startDate', 'endDate', 'action'];
+  displayedColumns: string[] = ['solutionId', 'solutionName','solution_created_date', 'startDate', 'endDate', 'action'];
   dataSource = new MatTableDataSource<any>();
   resourceType: string = ""
 
@@ -22,7 +23,9 @@ export class TemplateSolutionListComponent implements AfterViewInit, OnInit {
     private templateService: TemplateService,
     private router: Router,
     private authService: AuthenticationService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private location: Location
+
   ) {}
 
   ngOnInit() {
@@ -36,6 +39,7 @@ export class TemplateSolutionListComponent implements AfterViewInit, OnInit {
           this.dataSource.data = response.SolutionList.map((item: any) => ({
             solutionId: item.SOLUTION_ID,
             solutionName: item.SOLUTION_NAME,
+            solution_created_date: item.SOLUTION_CREATED_DATE,
             startDate: item.START_DATE,
             endDate: item.END_DATE
           }));
@@ -72,5 +76,8 @@ export class TemplateSolutionListComponent implements AfterViewInit, OnInit {
       () => this.toastr.success('Link copied to clipboard!'),
       (err) => this.toastr.error('Failed to copy link')
     );
+  }
+  goBack() {
+    this.location.back();
   }
 }

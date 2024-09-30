@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
 })
 export class TemplateService {
   private baseUrl: any = window['env' as any]['baseUrl' as any];
+  private linkUrl: any = window['env' as any]['linkUrl' as any];
   private apiBasePath: string = 'template/api/v1/'; // Global variable for API path
 
   templateFile: any;
@@ -17,7 +18,7 @@ export class TemplateService {
   constructor(private dataService: DataService) {}
 
   getEnvironmentUrl(): string {
-    return this.baseUrl;
+    return this.linkUrl;
   }
 
   selectTemplates() {
@@ -104,7 +105,7 @@ export class TemplateService {
   }
 
   getSolutionLink(solutionId: string): string {
-    const baseUrl = this.getEnvironmentUrl();
-    return `${baseUrl}surveyml/${solutionId}`;
+    const linkUrl = this.getEnvironmentUrl();
+    return `${this.linkUrl}surveyml/${solutionId}`;
   }
 }

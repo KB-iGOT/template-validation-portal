@@ -80,7 +80,7 @@ export class TemplateSelectionComponent implements OnInit {
       this.toaster.success('Downloaded successfully');
       this.selectFile = "";
     } else {
-      alert("Please select a file to download");
+      this.toaster.error('No file found ', "Please select a file");
     }
   }
 
@@ -217,7 +217,7 @@ export class TemplateSelectionComponent implements OnInit {
         }
       );
     } else {
-      alert(`Please select a file to ${action}`);
+      this.toaster.error('No file found ', "Please select a file");
     }
   }
   

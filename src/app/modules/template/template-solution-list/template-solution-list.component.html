@@ -1,4 +1,9 @@
 <div class="mat-elevation-z8">
+
+  <button mat-button (click)="goBack()" class="back-button">
+    <mat-icon>arrow_back</mat-icon> Back
+  </button>
+  
   <!-- Table Header -->
   <div class="table-header">
     <h2>List of Solutions</h2>
@@ -21,15 +26,20 @@
       <td mat-cell *matCellDef="let element"> {{element.solutionName}} </td>
     </ng-container>
 
+    <ng-container matColumnDef="solution_created_date">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Solution Created Date </th>
+      <td mat-cell *matCellDef="let element"> {{element.solution_created_date}} </td>
+    </ng-container>
+
     <!-- Start Date Column -->
     <ng-container matColumnDef="startDate">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Start Date </th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Survey Start Date </th>
       <td mat-cell *matCellDef="let element"> {{element.startDate | date:'medium'}} </td>
     </ng-container>
 
     <!-- End Date Column -->
     <ng-container matColumnDef="endDate">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> End Date </th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Survey End Date </th>
       <td mat-cell *matCellDef="let element"> {{element.endDate | date:'medium'}} </td>
     </ng-container>
 
