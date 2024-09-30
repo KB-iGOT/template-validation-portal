@@ -13,7 +13,7 @@ import { Location } from '@angular/common';
   templateUrl: 'template-solution-list.component.html',
 })
 export class TemplateSolutionListComponent implements AfterViewInit, OnInit {
-  displayedColumns: string[] = ['solutionId', 'solutionName', 'startDate', 'endDate', 'action'];
+  displayedColumns: string[] = ['solutionId', 'solutionName','solution_created_date', 'startDate', 'endDate', 'action'];
   dataSource = new MatTableDataSource<any>();
   resourceType: string = ""
 
@@ -39,6 +39,7 @@ export class TemplateSolutionListComponent implements AfterViewInit, OnInit {
           this.dataSource.data = response.SolutionList.map((item: any) => ({
             solutionId: item.SOLUTION_ID,
             solutionName: item.SOLUTION_NAME,
+            solution_created_date: item.SOLUTION_CREATED_DATE,
             startDate: item.START_DATE,
             endDate: item.END_DATE
           }));
