@@ -29,18 +29,22 @@
   cursor: pointer;
 }
 
-.back-button-container mat-icon {
-  padding: 10px;
-  border-radius: 50%;
-  border: 1px solid;
-  cursor: pointer;
-}
-
 .back-button-container p {
   margin-top: 15px;
   margin-left: 15px;
   cursor: pointer;
+  color: rgb(0, 116, 182, 1) !important; /* Set the color */
+  font-weight: bold; /* Optional: add bold for better visibility */
 }
+
+.back-button-container mat-icon {
+  padding: 10px;
+  border-radius: 50%;
+  border: 1px solid rgb(0, 116, 182, 1) !important; /* Change icon border color */
+  color: rgb(0, 116, 182, 1) !important; /* Change icon color */
+  cursor: pointer;
+}
+
 
 .export_div {
   padding-bottom: 20px;

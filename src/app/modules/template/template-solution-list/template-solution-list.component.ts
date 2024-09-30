@@ -5,6 +5,7 @@ import { TemplateService } from '../../shared/services/template.service';
 import { Router } from '@angular/router';
 import { AuthenticationService } from '../../shared/services/authentication.service';
 import { ToastrService } from 'ngx-toastr';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'table-pagination-example',
@@ -22,7 +23,9 @@ export class TemplateSolutionListComponent implements AfterViewInit, OnInit {
     private templateService: TemplateService,
     private router: Router,
     private authService: AuthenticationService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private location: Location
+
   ) {}
 
   ngOnInit() {
@@ -72,5 +75,8 @@ export class TemplateSolutionListComponent implements AfterViewInit, OnInit {
       () => this.toastr.success('Link copied to clipboard!'),
       (err) => this.toastr.error('Failed to copy link')
     );
+  }
+  goBack() {
+    this.location.back();
   }
 }
