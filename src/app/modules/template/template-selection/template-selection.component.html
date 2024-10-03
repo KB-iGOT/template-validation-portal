@@ -8,9 +8,14 @@
         <h2>Solution Upload Portal</h2>
     </div>
 
-    <div *ngIf="loader" class="spinner">
-        <mat-spinner [diameter]="70"></mat-spinner>
-    </div>
+    <div class="container">
+        <div *ngIf="loader" class="spinner">
+          <mat-spinner [diameter]="70"></mat-spinner>
+          <p>{{ loadingMessage }}</p> </div>
+      
+        <div class="template-selection-container" *ngIf="!loader">
+          </div>
+      </div>
 
     <div class="template-selection-container" *ngIf="!loader">
         <mat-card class="tempplate-download-card mat-elevation-z8">
