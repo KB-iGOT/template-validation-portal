@@ -16,6 +16,7 @@ export class TemplateSelectionComponent implements OnInit {
   fileInput: any;
   fileName = '';
   loader: boolean = false;
+  loadingMessage: string = '';
   userSelectedFile: any;
   userUploadedFileType: any;
   templateLinks: any;
@@ -111,44 +112,52 @@ export class TemplateSelectionComponent implements OnInit {
 
   validateAndCreateSurvey() {
     this.loader = true;
+    this.loadingMessage = 'Survey creation is in progress. Please wait...'; // Set initial loading message
     if (this.userSelectedFile) {
       this.templateService.uploadTemplates(this.userSelectedFile).subscribe(
         (event: any) => {
           this.templateService.validateTemplates(event.result.templatePath, this.userUploadedFileType, this.templateLinks).subscribe(
             (data) => {
               this.templateService.userSelectedFile = event.result.templatePath;
-              this.loader = false;
               if (data.result.advancedErrors.data.length == 0 && data.result.basicErrors.data.length == 0) {
                 this.templateService.surveyCreation(this.templateService.userSelectedFile).subscribe(
                   (surveyEvent: any) => {
                     this.solutiondetails = surveyEvent.result[0];
+                    this.loadingMessage = 'Survey creation completed successfully!'; // Update loading message to success
                     this.router.navigate(['/template/template-success', this.solutiondetails.solutionId], {
                       queryParams: {
                         downloadbleUrl: this.solutiondetails.downloadbleUrl
                       }
-                    }); // Navigate to success page
+                    });
+                    this.loader = false; // Set loader to false after successful navigation
                   },
                   (surveyError: any) => {
+                    this.loadingMessage = 'Error creating survey. Please try again.'; // Update loading message to error
                     console.error('Error creating survey:', surveyError);
-                    this.validateTemplate();
+                    this.validateTemplate(); // Handle error (optional)
+                    this.loader = false;
                   }
                 );
               } else {
                 this.templateService.templateError = data.result;
+                this.loadingMessage = 'Survey validation failed. Please check the errors.'; // Update loading message to validation failure
                 this.router.navigate(['/template/validation-result']); // Navigate to validation result page
+                this.loader = false;
               }
             },
             (validationError: any) => {
-              this.loader = false;
+              this.loadingMessage = 'Error validating template. Please try again.'; // Update loading message to validation error
               console.error('Error validating template:', validationError);
               this.toaster.error('Error validating template'); // Display error message to user
+              this.loader = false;
             }
           );
         },
         (uploadError: any) => {
-          this.loader = false;
+          this.loadingMessage = 'Error uploading file. Please try again.'; // Update loading message to upload error
           console.error('Error uploading file:', uploadError);
           this.toaster.error('Error uploading file'); // Display error message to user
+          this.loader = false;
         }
       );
     } else {
