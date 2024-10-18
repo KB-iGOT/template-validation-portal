@@ -6,7 +6,7 @@ echo "Docker build script"
 set -eo pipefail
 
 build_tag=$1
-name=ml-template-validation-backend-service
+name=thumbnail-generation-service
 node=$2
 org=$3
 
