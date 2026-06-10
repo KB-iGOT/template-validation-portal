@@ -6,7 +6,7 @@ echo "Docker build script"
 set -eo pipefail
 
 build_tag=$1
-name=ai-cbp-mdo-service
+name=ai-ui-assessment-service
 node=$2
 org=$3
 
